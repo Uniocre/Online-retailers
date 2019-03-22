@@ -1,99 +1,109 @@
 <template>
-  <div class="home">
-    <!-- 搜索框 -->
-    <div class="top">
-      <el-row>
-        <el-col :span="2"
-                :offset="2">
-          <div class="grid-content ">
-            <div class="img_logo">
-              <img src="../..//static/logo.jpg"
-                   alt="">
-            </div>
-          </div>
-        </el-col>
-        <el-col :span="14"
-                :offset="2">
-          <div class="grid-content ">
-            <div style="margin-top: 15px;">
-              <el-input placeholder="请输入内容"
-                        v-model="input4"
-                        style="width:80%; margin:0 auto">
-                <template slot="append">
-                  <el-button type="primary"
-                             icon="el-icon-search">搜索</el-button>
-                </template>
-              </el-input>
-            </div>
-          </div>
-        </el-col>
-        <el-col :span="8"></el-col>
-      </el-row>
+  <div class="Apage">
+    <div class="operation">
+      <div class="home">
+        <ul>
+          <li><router-link to="login">请登录 </router-link></li>
+          <li>请注册</li>
+          <li>我的订单</li>
+          <li>购物车</li>
+          <li>请注册</li>
+        </ul>
+      </div>
     </div>
-    <!-- 商品详细 -->
-    <div class="Propaganda"
-         style="heght:350px">
-      <el-row>
-        <el-col :span="6"
-                style="position:relative;">
-          <div class="Propaganda_left">
+    <div class="home">
+      <!-- 搜索框 -->
+      <div class="top">
+        <el-row>
+          <el-col :span="2"
+                  :offset="2">
+            <div class="grid-content ">
+              <div class="img_logo">
+                <img src="../..//static/logo.jpg"
+                    alt="">
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="14"
+                  :offset="2">
+            <div class="grid-content ">
+              <div style="margin-top: 15px;">
+                <el-input placeholder="请输入内容"
+                          v-model="input4"
+                          style="width:80%; margin:0 auto">
+                  <template slot="append">
+                    <el-button type="primary"
+                              icon="el-icon-search">搜索</el-button>
+                  </template>
+                </el-input>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="8"></el-col>
+        </el-row>
+      </div>
+      <!-- 商品详细 -->
+      <div class="Propaganda"
+          style="height:350px">
+        <el-row>
+          <el-col :span="6"
+                  style="position:relative;">
+            <div class="Propaganda_left">
+              <ul>
+                <li v-for=' (value,index) in pro_name'
+                    :key="index"
+                    :class="thisIndex == index? 'p_l_claHover':'p_l_cla'"
+                    @mouseenter="selectStyle (index) "
+                    @mouseleave="outStyle (index) ">{{value.p_name}}</li>
+              </ul>
+            </div>
+            <div class="Propaganda_right"
+                v-for=' (value,_index) in pro_name'
+                :key="_index"
+                v-show="thisIndex == _index">
+              {{value.p_name}}
+              <ul>
+                <li v-for="(val,__index) in value.children"
+                    :key="__index">
+                  {{val.name}}
+                </li>
+              </ul>
+            </div>
+          </el-col>
+          <el-col :span="12"
+                  style="position: absolute;left: 150px;width:850px">
+            <el-carousel height="350px">
+              <el-carousel-item v-for="item in 4"
+                                :key="item">
+                <h3>{{ item }}</h3>
+              </el-carousel-item>
+            </el-carousel>
+          </el-col>
+          <el-col :span="6"
+                  style="position: absolute;left:1000px">
             <ul>
-              <li v-for=' (value,index) in pro_name'
+              <li v-for="(item, index) in p_pho"
                   :key="index"
-                  :class="thisIndex == index? 'p_l_claHover':'p_l_cla'"
-                  @mouseenter="selectStyle (index) "
-                  @mouseleave="outStyle (index) ">{{value.p_name}}</li>
-            </ul>
-          </div>
-          <div class="Propaganda_right"
-               v-for=' (value,_index) in pro_name'
-               :key="_index"
-               v-show="thisIndex == _index">
-            {{value.p_name}}
-            <ul>
-              <li v-for="(val,__index) in value.children"
-                  :key="__index">
-                {{val.name}}
+                  class="Propaganda_pho">
+                <img :src=item.src
+                    alt="">
               </li>
             </ul>
-          </div>
-        </el-col>
-        <el-col :span="12"
-                style="position: absolute;left: 150px;width:850px">
-          <el-carousel height="350px">
-            <el-carousel-item v-for="item in 4"
-                              :key="item">
-              <h3>{{ item }}</h3>
-            </el-carousel-item>
-          </el-carousel>
-        </el-col>
-        <el-col :span="6"
-                style="position: absolute;left:1000px">
-          <ul>
-            <li v-for="(item, index) in p_pho"
-                :key="index"
-                class="Propaganda_pho">
-              <img :src=item.src
-                   alt="">
-            </li>
-          </ul>
-        </el-col>
-      </el-row>
-    </div>
-    <!-- 盒子 -->
-    <div class="kong"></div>
-    <!-- 商品分类 -->
-    <div class='Mail_cal' v-for="( value, index) in Mail" :key='index'>
-      <div class="M_top">{{value.M_type}}</div>
-      <ul>
-        <li v-for="( value2, index2) in value.M_children"
-            :key='index2'>
-          <img :src=value2.M_address
-               alt="">
-          <p>{{value2.M_information}}</p>
-          <p class="M_price">{{value2.M_price}}</p>
-        </li>
-      </ul>
+          </el-col>
+        </el-row>
+      </div>
+      <!-- 商品分类 -->
+      <div class='Mail_cal' v-for="( value, index) in Mail" :key='index'>
+        <div class="M_top">{{value.M_type}}</div>
+        <ul>
+          <li v-for="( value2, index2) in value.M_children"
+              :key='index2'>
+            <img :src=value2.M_address  alt="">
+            <p>{{value2.M_information}}</p>
+            <p class="M_price">{{value2.M_price}}</p>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -539,9 +549,24 @@ export default {
   width: 1200px;
   margin: 0 auto;
 }
-/* 盒子 */
-.kong{
-  height:350px;
+/* 顶部栏 */
+.operation {
+  height:50px;
+  background-color: #000;
+  width: 100%;
+  color:#fff;
+  ul{
+    display:block;
+    float: right;
+    line-height: 50px;
+    li{
+      margin:0 10px;
+      display:inline-block;
+    }
+    li:last-children{
+      margin-right: 0;
+    }
+  }
 }
 /* 商品信息 */
 .Mail_cal {
