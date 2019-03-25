@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <div class="box"></div>
   </div>
 </template>
 
@@ -24,5 +25,10 @@ export default {
 .home {
   width: 1200px;
   margin: 0 auto;
+}
+.box{
+  height:200px;
+  width:200px;
+  background-color: #000;
 }
 </style>

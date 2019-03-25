@@ -1,11 +1,13 @@
 <template>
+    <!--商品  -->
   <div class="Apage">
     <div class="operation">
       <div class="home">
         <ul>
-          <li><router-link to="login">请登录 </router-link></li>
+          <li><router-link :to="{path:'/login'}">请登录 </router-link></li>
           <li>请注册</li>
           <li>我的订单</li>
+          <li><router-link :to="{path:'bcar'}">购物车 </router-link></li>
           <li>购物车</li>
           <li>请注册</li>
         </ul>
@@ -539,6 +541,9 @@ export default {
     },
     outStyle (index) {
       this.thisIndex = null
+    },
+    goBcar () {
+      this.$router.push({name: 'Bcar'})
     }
   }
 }
