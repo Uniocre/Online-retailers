@@ -12,3 +12,6 @@
   .el-menu--popup-right-start{
     margin-left: 0;
   }
+.el-checkbox__input.is-checked+.el-checkbox__label {
+    color: #333;
+}

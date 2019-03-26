@@ -1,32 +1,36 @@
 <template>
-    <!--商品  -->
-  <div class="Apage">
+  <!--商品  -->
+  <div class="home">
+    <!-- 顶部栏 -->
     <div class="operation">
-      <div class="home">
-        <ul>
-          <li><router-link :to="{path:'/login'}">请登录 </router-link></li>
-          <li>请注册</li>
-          <li>我的订单</li>
-          <li><router-link :to="{path:'bcar'}">购物车 </router-link></li>
-          <li>购物车</li>
-          <li>请注册</li>
-        </ul>
-      </div>
+      <ul>
+        <li>
+          <router-link :to="{path:'/login'}">请登录 </router-link>
+        </li>
+        <li>请注册</li>
+        <li>我的订单</li>
+        <li>
+          <router-link :to="{path:'/bcar'}">购物车 </router-link>
+        </li>
+        <li>购物车</li>
+        <li>请注册</li>
+      </ul>
     </div>
-    <div class="home">
+    <!-- 版心 -->
+    <div class="B_home">
       <!-- 搜索框 -->
       <div class="top">
         <el-row>
           <el-col :span="2"
-                  :offset="2">
+                  :offset="1">
             <div class="grid-content ">
               <div class="img_logo">
-                <img src="../..//static/logo.jpg"
-                    alt="">
+                <img src="../../static/logo.jpg"
+                     alt="">
               </div>
             </div>
           </el-col>
-          <el-col :span="14"
+          <el-col :span="16"
                   :offset="2">
             <div class="grid-content ">
               <div style="margin-top: 15px;">
@@ -35,18 +39,17 @@
                           style="width:80%; margin:0 auto">
                   <template slot="append">
                     <el-button type="primary"
-                              icon="el-icon-search">搜索</el-button>
+                               icon="el-icon-search">搜索</el-button>
                   </template>
                 </el-input>
               </div>
             </div>
           </el-col>
-          <el-col :span="8"></el-col>
         </el-row>
       </div>
-      <!-- 商品详细 -->
+      <!-- 侧边拦 旋转木马 -->
       <div class="Propaganda"
-          style="height:350px">
+           style="height:350px">
         <el-row>
           <el-col :span="6"
                   style="position:relative;">
@@ -60,9 +63,9 @@
               </ul>
             </div>
             <div class="Propaganda_right"
-                v-for=' (value,_index) in pro_name'
-                :key="_index"
-                v-show="thisIndex == _index">
+                 v-for=' (value,_index) in pro_name'
+                 :key="_index"
+                 v-show="thisIndex == _index">
               {{value.p_name}}
               <ul>
                 <li v-for="(val,__index) in value.children"
@@ -81,26 +84,29 @@
               </el-carousel-item>
             </el-carousel>
           </el-col>
-          <el-col :span="6"
-                  style="position: absolute;left:1000px">
+          <el-col :span="1"
+                  style="position: absolute;left:1000px"
+                  class="Propaganda_pho">
             <ul>
               <li v-for="(item, index) in p_pho"
-                  :key="index"
-                  class="Propaganda_pho">
+                  :key="index">
                 <img :src=item.src
-                    alt="">
+                     alt="">
               </li>
             </ul>
           </el-col>
         </el-row>
       </div>
       <!-- 商品分类 -->
-      <div class='Mail_cal' v-for="( value, index) in Mail" :key='index'>
+      <div class='Mail_cal'
+           v-for="( value, index) in Mail"
+           :key='index'>
         <div class="M_top">{{value.M_type}}</div>
         <ul>
           <li v-for="( value2, index2) in value.M_children"
               :key='index2'>
-            <img :src=value2.M_address  alt="">
+            <img :src=value2.M_address
+                 alt="">
             <p>{{value2.M_information}}</p>
             <p class="M_price">{{value2.M_price}}</p>
           </li>
@@ -543,42 +549,23 @@ export default {
       this.thisIndex = null
     },
     goBcar () {
-      this.$router.push({name: 'Bcar'})
+      this.$router.push({ name: 'Bcar' })
     }
   }
 }
 </script>
 
 <style lang = 'scss'>
-.home {
+.B_home {
   width: 1200px;
   margin: 0 auto;
 }
-/* 顶部栏 */
-.operation {
-  height:50px;
-  background-color: #000;
-  width: 100%;
-  color:#fff;
-  ul{
-    display:block;
-    float: right;
-    line-height: 50px;
-    li{
-      margin:0 10px;
-      display:inline-block;
-    }
-    li:last-children{
-      margin-right: 0;
-    }
-  }
-}
-/* 商品信息 */
+/* 商品分类 */
 .Mail_cal {
-  .M_top{
-    height:40px;
+  .M_top {
+    height: 40px;
     font-size: 20px;
-    border-bottom: 5px solid #000
+    border-bottom: 5px solid #000;
   }
   .M_price {
     color: red;
@@ -587,7 +574,8 @@ export default {
     li {
       display: inline-block;
       height: 250px;
-      width: 240px;
+      width: 220px;
+      padding:10px;
     }
   }
   img {
@@ -607,20 +595,19 @@ export default {
     margin: 5px auto;
   }
 }
-.Mail_cal:nth-child(1){
-  margin-top: 360px;
-}
 /* 首页旋转木马和侧边拦 */
-/* 宣传照片部分 */
 .Propaganda_pho {
-  display: inline-block;
-  height: 117px;
-  width: 200px;
-  img {
-    height: 100%;
-    width: 100%;
+    ul{
+      li{
+        height: 117px;
+        width: 200px;
+        img {
+          height: 100%;
+          width: 100%;
+        }
+      }
+    }
   }
-}
 /* 侧边拦右侧部分 */
 .Propaganda_right {
   display: inline-block;
@@ -665,7 +652,24 @@ export default {
   line-height: 150px;
   margin: 0;
 }
-
+/* 顶部栏 */
+.operation {
+  height: 50px;
+  background-color: #000;
+  color: #fff;
+  ul {
+    display: block;
+    float: right;
+    line-height: 50px;
+    li {
+      margin: 0 10px;
+      display: inline-block;
+    }
+    li:last-children {
+      margin-right: 0;
+    }
+  }
+}
 .el-carousel__item:nth-child(2n) {
   background-color: #99a9bf;
 }
