@@ -36,8 +36,8 @@
       <el-row style="text-align: center;">
         <el-col :span="3">
           <div class="grid-content">&nbsp;&nbsp;
-            <el-checkbox v-model="checked"
-                         @click="selectTOtal">全选</el-checkbox>
+            <el-checkbox v-model="checkAll"
+                         @change="selectTOtal">全选</el-checkbox>
           </div>
         </el-col>
         <el-col :span="3">
@@ -62,13 +62,16 @@
       <!-- 商品拦 -->
       <el-row class='b_shop'
               v-for="(value,index) in car_"
-              :key="index">
+              :key="index"
+              :show="isTrue"
+              v-if="car_.length>0">
         <!-- 商品 -->
         <el-col :span="3">
-          <div class="grid-content">&nbsp;&nbsp;<el-checkbox v-model="value.isSelect">
-              <img :src="value.car_pho"
-                   alt="">
-            </el-checkbox>
+          <div class="grid-content">&nbsp;&nbsp;
+            <el-checkbox v-model="value.isSelect"
+                         @change="handleCheckedCitiesChange(value,index)"></el-checkbox>
+            <img :src="value.car_pho"
+                 alt="">
           </div>
         </el-col>
         <!-- 商品信息 -->
@@ -88,17 +91,20 @@
             <!-- 计步器 -->
             <el-input-number size="mini"
                              v-model="value.number"
-                             @change="handleChange"></el-input-number>
+                             :min="1"
+                             @change="handleChange(value)"></el-input-number>
           </div>
         </el-col>
         <!-- 商品总金额 -->
         <el-col :span="3">
-          <div class="grid-content">{{value.totalPricr}}</div>
+          <div class="grid-content"
+               style="color:#c51c1c">￥{{value.totalPricr}}</div>
         </el-col>
         <!-- 操作 -->
         <el-col :span="3">
-          <el-button type="primary"
-                     icon="el-icon-delete"></el-button>
+          <el-button type="text"
+                     style="color:#333;line-height:0px;"
+                     @click="Delcar(index, value.id)">删除</el-button>
         </el-col>
       </el-row>
       <!-- 猜你你喜欢 -->
@@ -111,10 +117,10 @@
 export default {
   data () {
     return {
-      /* 商品数量 */
-      num1: '1',
-      /* 全选 */
-      checked: false,
+      /* 全选商品 */
+      checkAll: false,
+      /* 测试用隐藏 */
+      isTrue: false,
       /* 运费 */
       bfg: '1213',
       /* 商品数量 */
@@ -132,36 +138,82 @@ export default {
           /* 判断商品是否被选中 */
           isSelect: false,
           /* 单价 */
-          UnitPrice: '2',
+          UnitPrice: '40',
           /* 商品数量 */
           number: '2',
           /* 总价 */
-          totalPricr: '224'
+          totalPricr: '40'
         },
         {
           id: 1002,
           car_pho: '../../static/server/7.jpg',
           car_commodity: '网关',
           car_price: '124',
-          UnitPrice: '2',
+          UnitPrice: '20',
           number: '1',
-          totalPricr: '224',
+          totalPricr: '20',
           isSelect: false
         }
       ]
     }
   },
   mounted () {
-    this.tcall()
   },
   methods: {
-    tcall () {
+    /* 删除商品 */
+    Delcar (index, id) {
+      this.$confirm('此操作将删除该商品, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+        /* 删除后，商品消失，没有接口先不做了 */
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    /* 计步器事件 */
+    handleChange (value) {
+      this.car_.filter((v, i) => {
+        if (value.id === this.car_[i].id) {
+          /* 循环数组当前的id与数组里id相等时
+          取当前的单价和num，相乘取总金额数，在赋值到当前商品的总金额数值中 */
+          let price = value.UnitPrice
+          let num = this.car_[i].number
+          let allPrice = price * num
+          this.car_[i].totalPricr = allPrice
+        }
+      })
     },
     /* 全选 */
     selectTOtal () {
-      console.log('1')
+      if (this.checkAll) {
+        this.car_.map((v) => {
+          v.isSelect = true
+        })
+      } else {
+        this.car_.map((v) => {
+          v.isSelect = false
+        })
+      }
     },
-    handleChange () {
+    /* 单选 */
+    handleCheckedCitiesChange (val, index) {
+      let flag = true
+      this.car_.filter((v, i) => {
+        if (!v.isSelect) {
+          flag = false
+        }
+      })
+      /* 赋值给全选按钮 */
+      this.checkAll = flag
     }
   }
 }
