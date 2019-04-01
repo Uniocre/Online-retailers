@@ -2,20 +2,7 @@
   <!--商品  -->
   <div class="home">
     <!-- 顶部栏 -->
-    <div class="operation">
-      <ul>
-        <li>
-          <router-link :to="{path:'/login'}">请登录 </router-link>
-        </li>
-        <li>请注册</li>
-        <li>我的订单</li>
-        <li>
-          <router-link :to="{path:'/bcar'}">购物车 </router-link>
-        </li>
-        <li>购物车</li>
-        <li>请注册</li>
-      </ul>
-    </div>
+    <Operation></Operation>
     <!-- 版心 -->
     <div class="B_home">
       <!-- 搜索框 -->
@@ -117,8 +104,11 @@
 </template>
 
 <script>
-
+import Operation from '../components/Operation'
 export default {
+  components: {
+    Operation
+  },
   data () {
     return {
       /* 商品宣传 */
@@ -651,24 +641,6 @@ export default {
   opacity: 0.75;
   line-height: 150px;
   margin: 0;
-}
-/* 顶部栏 */
-.operation {
-  height: 50px;
-  background-color: #000;
-  color: #fff;
-  ul {
-    display: block;
-    float: right;
-    line-height: 50px;
-    li {
-      margin: 0 10px;
-      display: inline-block;
-    }
-    li:last-children {
-      margin-right: 0;
-    }
-  }
 }
 .el-carousel__item:nth-child(2n) {
   background-color: #99a9bf;

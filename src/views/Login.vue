@@ -10,7 +10,7 @@
                class="demo-ruleForm">
         <el-form-item label="用户名">
           <el-input placeholder="请输入内容"
-                    prefix-icon="el-icon-thirdicon-"
+                    prefix-icon="el-icon-third-icon-"
                     v-model="ruleForm2.name">
           </el-input>
         </el-form-item>

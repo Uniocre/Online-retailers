@@ -1,25 +1,12 @@
 <template>
   <div class="home">
     <!-- 顶部栏 -->
-    <div class="operation">
-      <div class="home">
-        <ul>
-          <li>
-            <router-link :to="{path:'/login'}">请登录 </router-link>
-          </li>
-          <li>请注册</li>
-          <li>我的订单</li>
-          <li>
-            <router-link :to="{path:'/bcar'}">购物车 </router-link>
-          </li>
-          <li>购物车</li>
-          <li>请注册</li>
-        </ul>
-      </div>
-    </div>
+    <Operation></Operation>
     <div class="b_home">
+      <!-- 如果商品数组没有数据则是没有商品在购物车，v-if="car_.length>0"判断数组的长度是否有商品 -->
       <!-- 购物车 -->
-      <el-row style="line-height:30px;">
+      <el-row style="line-height:30px;"
+              v-if="car_.length>0">
         <el-col :span="18">
           <div class="grid-content">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;全部商品 {{totalnum}}</div>
         </el-col>
@@ -33,7 +20,8 @@
         </el-col>
       </el-row>
       <!-- 操作栏 -->
-      <el-row style="text-align: center;">
+      <el-row style="text-align: center;"
+              v-if="car_.length>0">
         <el-col :span="3">
           <div class="grid-content">&nbsp;&nbsp;
             <el-checkbox v-model="checkAll"
@@ -67,7 +55,7 @@
               v-if="car_.length>0">
         <!-- 商品 -->
         <el-col :span="3">
-          <div class="grid-content">&nbsp;&nbsp;
+          <div class="grid-content car_iput">&nbsp;&nbsp;
             <el-checkbox v-model="value.isSelect"
                          @change="handleCheckedCitiesChange(value,index)"></el-checkbox>
             <img :src="value.car_pho"
@@ -107,52 +95,123 @@
                      @click="Delcar(index, value.id)">删除</el-button>
         </el-col>
       </el-row>
+      <!-- 当购物车为空时 -->
+      <!-- 搜索框 -->
+      <el-row v-if="car_.length<=0">
+        <el-col :span="12"
+                style="text-align:center;margin-top:30px;">
+          <el-breadcrumb separator="/">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>我的购物车</el-breadcrumb-item>
+          </el-breadcrumb>
+        </el-col>
+        <el-col :span="12"
+                style="text-align:center;margin-top:30px;">
+          <el-input placeholder="请输入内容"
+                    v-model="input4"
+                    class="input-with-select">
+            <el-button slot="append"
+                       icon="el-icon-search"></el-button>
+          </el-input>
+        </el-col>
+      </el-row>
+      <!-- 购物车空文字 -->
+      <div class="car_text">
+        <span>你的购物车还是空的，赶紧行动吧!</span>
+      </div>
       <!-- 猜你你喜欢 -->
+      <div class="clike">
+        <div class="title">猜你喜欢</div>
+        <ul>
+          <li v-for="(value, index) in like_"
+              :key='index'>
+            <img :src="value.pho"
+                 alt="">
+            <p style="color:red;text-align:center">￥{{value.UnitPrice}}</p>
+            <p style="text-align:center">{{value.commodity}}</p>
+            <p style="color:#333;font-size:14px">月销{{value.Monthlysales}}</p>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-
+import Operation from '../../components/Operation'
 export default {
+  components: {
+    Operation
+  },
   data () {
     return {
       /* 全选商品 */
       checkAll: false,
+      input4: '',
       /* 测试用隐藏 */
       isTrue: false,
       /* 运费 */
       bfg: '1213',
       /* 商品数量 */
-      totalnum: '2',
-      car_: [
+      totalnum: '0',
+      /* 购物车商品 */
+      car_: [],
+      /* 猜你喜欢 */
+      like_: [
         {
           /* 商品id */
           id: 1001,
           /* 图片路径 */
-          car_pho: '../../static/server/7.jpg',
+          pho: '../../static/server/6.jpg',
           /* 商品名称 */
-          car_commodity: '防火墙',
-          /* 商品价格 */
-          car_price: '124',
-          /* 判断商品是否被选中 */
-          isSelect: false,
+          commodity: '防火墙',
           /* 单价 */
           UnitPrice: '40',
-          /* 商品数量 */
-          number: '2',
-          /* 总价 */
-          totalPricr: '40'
+          /* 月销 */
+          Monthlysales: '567'
+        },
+        {
+          /* 商品id */
+          id: 1002,
+          /* 图片路径 */
+          pho: '../../static/server/2.jpg',
+          /* 商品名称 */
+          commodity: '网关',
+          /* 单价 */
+          UnitPrice: '50',
+          /* 月销 */
+          Monthlysales: '345'
+        },
+        {
+          /* 商品id */
+          id: 1003,
+          /* 图片路径 */
+          pho: '../../static/server/1.jpg',
+          /* 商品名称 */
+          commodity: 'web应用防火墙',
+          /* 单价 */
+          UnitPrice: '20',
+          /* 月销 */
+          Monthlysales: '78'
+        },
+        {
+          /* 商品id */
+          id: 1004,
+          /* 图片路径 */
+          pho: '../../static/server/3.jpg',
+          /* 商品名称 */
+          commodity: '入侵方策系统',
+          /* 单价 */
+          UnitPrice: '90',
+          /* 月销 */
+          Monthlysales: '5267'
         },
         {
           id: 1002,
-          car_pho: '../../static/server/7.jpg',
-          car_commodity: '网关',
-          car_price: '124',
-          UnitPrice: '20',
-          number: '1',
-          totalPricr: '20',
-          isSelect: false
+          pho: '../../static/server/4.jpg',
+          commodity: '防病毒网关',
+          UnitPrice: '230',
+          Monthlysales: '4576'
         }
       ]
     }
@@ -222,34 +281,66 @@ export default {
 <style lang = 'scss'>
 .b_home {
   width: 1200px;
-  margin: 0 auto;
-  background-color: #999;
+  margin: 20px auto;
+}
+.car_text {
+  height: 200px;
+  overflow: hidden;
+  span {
+    display: block;
+    width: 500px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 75px;
+  }
+}
+.clike {
+  margin-top: 50px;
+  .title {
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    font-weight: 600;
+    border-bottom: 5px solid #999;
+    margin-bottom: 10px;
+    text-indent: 20px;
+  }
+  ul {
+    li {
+      display: inline-block;
+      height: 250px;
+      width: 220px;
+      padding: 10px;
+      img {
+        width: 220px;
+        height: 150px;
+        display: block;
+        margin: 0 auto;
+      }
+      p {
+        margin: 10px 0;
+      }
+    }
+  }
+}
+.el-breadcrumb {
+  background-color: #fff;
+}
+.car_iput {
+  padding: auto 0;
+  input {
+    vertical-align: middle;
+  }
 }
 /* 商品拦 */
 .b_shop {
   text-align: center;
+  margin-top: 5px;
   img {
     width: 50px;
     height: 50px;
-  }
-}
-/* 顶部栏 */
-.operation {
-  height: 50px;
-  background-color: #000;
-  width: 100%;
-  color: #fff;
-  ul {
-    display: block;
-    float: right;
-    line-height: 50px;
-    li {
-      margin: 0 10px;
-      display: inline-block;
-    }
-    li:last-children {
-      margin-right: 0;
-    }
   }
 }
 .el-row {
