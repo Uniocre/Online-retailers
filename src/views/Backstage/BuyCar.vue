@@ -116,7 +116,7 @@
         </el-col>
       </el-row>
       <!-- 购物车空文字 -->
-      <div class="car_text">
+      <div class="car_text" v-if="car_.length<=0">
         <span>你的购物车还是空的，赶紧行动吧!</span>
       </div>
       <!-- 猜你你喜欢 -->

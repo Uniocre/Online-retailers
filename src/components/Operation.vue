@@ -1,6 +1,6 @@
 <template>
   <div class="operation">
-    <!-- 顶部栏 -->
+    <!-- 顶部栏组件 -->
     <div class="home">
       <ul>
         <li>
