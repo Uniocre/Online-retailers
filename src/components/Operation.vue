@@ -11,7 +11,6 @@
         <li>
           <router-link :to="{path:'/bcar'}">购物车 </router-link>
         </li>
-        <li>请注册</li>
       </ul>
     </div>
   </div>
