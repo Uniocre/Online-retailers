@@ -5,6 +5,7 @@ import RouterView from '../views/public/RouterView.vue'
 import Login from '../views/Login.vue'
 import Order from '../views/Backstage/Order.vue'
 import Bcar from '../views/Backstage/BuyCar.vue'
+import Register from '../views/Backstage/Register.vue'
 import '../styles/index.scss'
 
 Vue.use(Router)
@@ -29,6 +30,11 @@ export default new Router({
         path: '/order',
         name: 'Order',
         component: Order
+      },
+      {
+        path: '/register',
+        name: 'Register',
+        component: Register
       }
     ]
   },

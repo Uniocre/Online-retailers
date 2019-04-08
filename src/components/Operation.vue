@@ -6,7 +6,6 @@
         <li>
           <router-link :to="{path:'/login'}">请登录 </router-link>
         </li>
-        <li>请注册</li>
         <li><router-link :to="{path:'/order'}">我的订单 </router-link></li>
         <li>
           <router-link :to="{path:'/bcar'}">购物车 </router-link>
@@ -40,6 +39,10 @@ export default {
   background-color: #000;
   width: 100%;
   color: #fff;
+  .home{
+    width:1200px;
+    margin:0 auto;
+  }
   ul {
     display: block;
     float: right;

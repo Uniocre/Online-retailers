@@ -1,6 +1,6 @@
 <template>
   <!--商品  -->
-  <div class="home">
+  <div>
     <!-- 顶部栏 -->
     <Operation></Operation>
     <!-- 版心 -->

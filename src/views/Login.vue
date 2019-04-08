@@ -31,7 +31,7 @@
       <!-- 注册 -->
       <div class="opration">
         <ul>
-          <li>快速注册</li>
+          <li><router-link :to="{path:'/register'}">快速注册 </router-link></li>
           <li>忘记密码</li>
         </ul>
       </div>
@@ -152,6 +152,10 @@ export default {
   border-radius: 20px;
   border: 1px solid red;
   box-shadow: 0px 7px 9px 0px red;
+}
+.loginbutton:hover{
+  background-color: red;
+  border: 1px solid red;
 }
 .el-input__inner {
   width: 300px;

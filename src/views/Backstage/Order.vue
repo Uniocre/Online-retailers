@@ -21,10 +21,11 @@
               <div class="fnt">
                 <div class="iput">
                   <el-checkbox v-model="value.isSelect"
-                             style="width:20px;display:inline-block;"
-                             @change="handleCheckedCitiesChange(value,index)"></el-checkbox>
+                               style="width:20px;display:inline-block;"
+                               @change="handleCheckedCitiesChange(value,index)"></el-checkbox>
                 </div>
-                <div class="pho_"><img :src="value.pho" alt=""></div>
+                <div class="pho_"><img :src="value.pho"
+                       alt=""></div>
               </div>
             </el-col>
             <!-- 商品信息 -->
@@ -47,7 +48,8 @@
               <div class="grid-content">{{value.totalPrice}}</div>
             </el-col>
             <!-- 操作 -->
-            <el-col :span="3" style="line-height:0;text-align:center">
+            <el-col :span="3"
+                    style="line-height:0;text-align:center">
               <ul class="op_color">
                 <li>
                   <el-button type="text"
@@ -65,11 +67,22 @@
               </ul>
             </el-col>
           </el-row>
+          <!-- 分页器 -->
+          <div class="block"  style="padding-left:300px">
+                      <!-- 每页条数size   当前页currentPage -->
+            <el-pagination @size-change="handleSizeChange"
+                           @current-change="handleCurrentChange"
+                           :current-page.sync="currentPage1"
+                           :page-size="psize"
+                           layout="total, prev, pager, next"
+                           :total="ptotal">
+            </el-pagination>
+          </div>
         </el-tab-pane>
         <!-- 待发货 state2-->
         <el-tab-pane label="待发货"
                      name="second">
-                     <!-- 搜索栏 -->
+          <!-- 搜索栏 -->
           <search></search>
           <!-- 操作栏 -->
           <mailoperation></mailoperation>
@@ -82,10 +95,11 @@
               <div class="fnt">
                 <div class="iput">
                   <el-checkbox v-model="value.isSelect"
-                             style="width:20px;display:inline-block;"
-                             @change="handleCheckedCitiesChange(value,index)"></el-checkbox>
+                               style="width:20px;display:inline-block;"
+                               @change="handleCheckedCitiesChange(value,index)"></el-checkbox>
                 </div>
-                <div class="pho_"><img :src="value.pho" alt=""></div>
+                <div class="pho_"><img :src="value.pho"
+                       alt=""></div>
               </div>
             </el-col>
             <!-- 商品信息 -->
@@ -108,7 +122,8 @@
               <div class="grid-content">{{value.totalPrice}}</div>
             </el-col>
             <!-- 操作 -->
-            <el-col :span="3" style="line-height:0;text-align:center">
+            <el-col :span="3"
+                    style="line-height:0;text-align:center">
               <ul class="op_color">
                 <li>
                   <el-button type="text"
@@ -142,10 +157,11 @@
               <div class="fnt">
                 <div class="iput">
                   <el-checkbox v-model="value.isSelect"
-                             style="width:20px;display:inline-block;"
-                             @change="handleCheckedCitiesChange(value,index)"></el-checkbox>
+                               style="width:20px;display:inline-block;"
+                               @change="handleCheckedCitiesChange(value,index)"></el-checkbox>
                 </div>
-                <div class="pho_"><img :src="value.pho" alt=""></div>
+                <div class="pho_"><img :src="value.pho"
+                       alt=""></div>
               </div>
             </el-col>
             <!-- 商品信息 -->
@@ -168,7 +184,8 @@
               <div class="grid-content">{{value.totalPrice}}</div>
             </el-col>
             <!-- 操作 -->
-            <el-col :span="3" style="line-height:0;text-align:center">
+            <el-col :span="3"
+                    style="line-height:0;text-align:center">
               <ul class="op_color">
                 <li>
                   <el-button type="text"
@@ -202,10 +219,11 @@
               <div class="fnt">
                 <div class="iput">
                   <el-checkbox v-model="value.isSelect"
-                             style="width:20px;display:inline-block;"
-                             @change="handleCheckedCitiesChange(value,index)"></el-checkbox>
+                               style="width:20px;display:inline-block;"
+                               @change="handleCheckedCitiesChange(value,index)"></el-checkbox>
                 </div>
-                <div class="pho_"><img :src="value.pho" alt=""></div>
+                <div class="pho_"><img :src="value.pho"
+                       alt=""></div>
               </div>
             </el-col>
             <!-- 商品信息 -->
@@ -228,7 +246,8 @@
               <div class="grid-content">{{value.totalPrice}}</div>
             </el-col>
             <!-- 操作 -->
-            <el-col :span="3" style="line-height:0;text-align:center">
+            <el-col :span="3"
+                    style="line-height:0;text-align:center">
               <ul class="op_color">
                 <li>
                   <el-button type="text"
@@ -246,7 +265,7 @@
               </ul>
             </el-col>
           </el-row>
-          </el-tab-pane>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -268,7 +287,11 @@ export default {
       activeName: 'first',
       /* 搜索框 */
       input4: '',
+      /* 分页器 */
+      currentPage1: 1,
       /* 全选默认为否 */
+      psize: 5,
+      ptotal: 6,
       checkAll: false,
       commodity: [
         {
@@ -371,6 +394,13 @@ export default {
     handleClick (tab, event) {
       console.log(tab, event)
     },
+    /* 分页器的上一页下一页 */
+    handleSizeChange (val) {
+      console.log(`每页 ${val} 条`)
+    },
+    handleCurrentChange (val) {
+      console.log(`当前页: ${val}`)
+    },
     /* 商品单选事件 */
     handleCheckedCitiesChange (val, index) {
       let flag = true
@@ -426,7 +456,7 @@ export default {
 }
 .op_color {
   li {
-    .el-button--text{
+    .el-button--text {
       color: #333;
     }
   }
@@ -434,20 +464,20 @@ export default {
 /* 商品 */
 .b_shop {
   margin-top: 5px;
-  .el-col{
-    height:150px;
+  .el-col {
+    height: 150px;
     line-height: 150px;
-    .grid-content{
+    .grid-content {
       text-align: center;
     }
-    .fnt{
-      display:flex;
-      .iput{
-        width:20px;
-        height:150px;
+    .fnt {
+      display: flex;
+      .iput {
+        width: 20px;
+        height: 150px;
         display: inline-block;
       }
-      .pho_{
+      .pho_ {
         width: 115px;
         height: 125px;
         padding-top: 25px;
