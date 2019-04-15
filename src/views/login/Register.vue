@@ -1,54 +1,39 @@
 <template>
-  <div>
+  <div style="
+  background-color: #9999994a;">
     <Operation></Operation>
     <div class="b_home">
-      <!-- 步骤条 -->
-      <div class="step">
-        <el-steps :active="active"
-                  finish-status="success">
-          <el-step title="注册用户">
-          </el-step>
-          <el-step title="填写信息"></el-step>
-          <el-step title="注册成功"></el-step>
-        </el-steps>
-      </div>
-      <div class="mve"
-           v-if="active===0">
-        <!-- 注册用户 -->
-        <el-form :model="ruleForm2"
+      <!-- 手机号码注册 -->
+      <div class="mve">
+        <el-form :model="form"
                  status-icon
-                 :rules="rules2"
-                 ref="ruleForm2"
+                 :rules="rule"
+                 ref="form"
                  label-width="100px"
                  class="demo-ruleForm">
-          <!--  <el-form-item label="用户名"
-                        prop="checkName">
-            <el-input v-model="ruleForm2.name"
-                      auto-complete="off"></el-input>
-          </el-form-item> -->
           <el-form-item label="用户名"
                         prop="checkName">
-            <el-input v-model="ruleForm2.checkName"></el-input>
+            <el-input v-model="form.checkName"></el-input>
           </el-form-item>
           <el-form-item label="设置密码"
                         prop="pass">
             <el-input type="password"
-                      v-model="ruleForm2.pass"
+                      v-model="form.pass"
                       auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="确认密码"
                         prop="checkPass">
             <el-input type="password"
-                      v-model="ruleForm2.checkPass"
+                      v-model="form.checkPass"
                       auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="手机号码"
                         prop="checkPhone">
-            <el-input v-model="ruleForm2.checkPhone"></el-input>
+            <el-input v-model="form.checkPhone"></el-input>
           </el-form-item>
           <el-form-item label="手机验证码"
-                        prop="Verification">
-            <el-input v-model="ruleForm2.Verification"
+                        prop="checkVaira">
+            <el-input v-model="form.checkVaira"
                       style="width:300px"></el-input>
             <button class="button"
                     @click="getCode"
@@ -57,8 +42,10 @@
                     v-show="!show">已发送({{count}})</button>
           </el-form-item>
         </el-form>
-        <el-button style="margin-top: 12px;"
-                   @click="next">下一步</el-button>
+        <div class="btn">
+          <el-button class="bn"
+                     @click="next">注册</el-button>
+        </div>
       </div>
     </div>
   </div>
@@ -71,6 +58,10 @@ export default {
     Operation
   },
   data () {
+    /* 验证码格式 */
+    var checkVaira = (rule, value, callback) => {
+      callback()
+    }
     /* 手机号码 */
     var checkPhone = (rule, value, callback) => {
       if (value === '') {
@@ -87,8 +78,7 @@ export default {
     var checkName = (rule, value, callback) => {
       const ebb = value.trim()
       if (ebb === '') {
-        callback(new Error('请输入用户名'))
-        console.log(value)
+        return callback(new Error('请输入用户名'))
       }
       /* 判断是否有非法字符(除了中英文、数字、下划线以外的字符) */
       var charReg = /[^\u4E00-\u9FA5\w]/
@@ -109,12 +99,9 @@ export default {
       for (var i = 0; i < ebb.length; i++) {
         /* 如果值为中文，就为两个字符节 */
         if (china.test(ebb[i])) {
-          console.log(ebb[i])
           len += 2
-          console.log(len)
         } else {
           len += 1
-          console.log(len)
         }
         // 尽量避免执行过多的次数，一旦len超过14就不满足条件了
         if (len > 14) {
@@ -131,7 +118,7 @@ export default {
     /* 密码 */
     var validatePass = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请输入密码'))
+        return callback(new Error('请输入密码'))
       } else {
         const Pass = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$/
         if (Pass.test(value)) {
@@ -145,7 +132,7 @@ export default {
     var validatePass2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'))
-      } else if (value !== this.ruleForm2.pass) {
+      } else if (value !== this.form.pass) {
         callback(new Error('两次输入密码不一致!'))
       } else {
         callback()
@@ -157,14 +144,14 @@ export default {
       show: true,
       count: '',
       /* 注册用户的信息 */
-      ruleForm2: {
+      form: {
+        checkPhone: '',
+        checkVaira: '',
         checkName: '',
         pass: '',
-        checkPass: '',
-        checkPhone: '',
-        Verification: ''
+        checkPass: ''
       },
-      rules2: {
+      rule: {
         checkName: [
           { required: true, validator: checkName, trigger: 'blur' }
         ],
@@ -176,6 +163,9 @@ export default {
         ],
         checkPhone: [
           { required: true, validator: checkPhone, trigger: 'blur' }
+        ],
+        checkVaira: [
+          { required: true, validator: checkVaira, trigger: 'blur' }
         ]
       }
     }
@@ -203,33 +193,16 @@ export default {
         }, 1000)
       }
     },
-    /* 步骤条的下一步按钮 */
     next () {
-      console.log(this.ruleForm2.phone)
-      if (this.ruleForm2.phone === '') {
-        this.$message('请填写完全部信息')
-      } else {
-        if (this.active++ > 2) this.active = 0
-      }
-    },
-    /* 上一步 */
-    prev () {
-      --this.active
-      if (this.active < 0) this.active = 0
-    },
-    /* 调交表单 */
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!')
+      this.$refs['form'].validate((v) => {
+        if (v) {
+          this.$message('注册成功')
+          this.$router.push({path: '/'})
         } else {
           console.log('error submit!!')
           return false
         }
       })
-    },
-    resetForm (formName) {
-      this.$refs[formName].resetFields()
     }
   }
 }
@@ -239,6 +212,23 @@ export default {
 .b_home {
   width: 1200px;
   margin: 0 auto;
+  overflow: hidden;
+}
+.btn {
+  margin-top: 12px;
+  width: 200px;
+  margin: 0 auto;
+  .bn {
+    width: 200px;
+    color: #000;
+    background-color: #e60d0dc9;
+    border-radius: 15px;
+  }
+}
+.step {
+  width: 450px;
+  margin-left: 400px;
+  margin-top: 20px;
 }
 .button {
   height: 40px;
@@ -248,6 +238,8 @@ export default {
 }
 .mve {
   width: 500px;
-  margin-top: 20px;
+  padding: 20px 90px;
+  margin: 20px auto;
+  background-color: #fff;
 }
 </style>

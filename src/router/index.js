@@ -6,6 +6,7 @@ import Login from '../views/login/Login.vue'
 import Order from '../views/Backstage/Order.vue'
 import Bcar from '../views/Backstage/BuyCar.vue'
 import Register from '../views/login/Register.vue'
+import Details from '../views/shop/Details.vue'
 import '../styles/index.scss'
 
 Vue.use(Router)
@@ -35,6 +36,11 @@ export default new Router({
         path: '/register',
         name: 'Register',
         component: Register
+      },
+      {
+        path: '/details',
+        name: 'Details',
+        component: Details
       }
     ]
   },
