@@ -11,9 +11,12 @@
 }
 
 .clearfix:after {
-  content: "";
-  display: block;
+  visibility: hidden;
   clear: both;
+  display: block;
+  content: ".";
+  height: 0;
+  line-height: 0;
 }
 
 .clearfix {

@@ -7,6 +7,7 @@ import Order from '../views/Backstage/Order.vue'
 import Bcar from '../views/Backstage/BuyCar.vue'
 import Register from '../views/login/Register.vue'
 import Details from '../views/shop/Details.vue'
+import Evaluate from '../views/shop/Evaluate.vue'
 import '../styles/index.scss'
 
 Vue.use(Router)
@@ -16,37 +17,41 @@ export default new Router({
     path: '/',
     redirect: '/home',
     component: RouterView,
-    children: [
-      {
-        path: '/home',
-        name: 'Home',
-        component: Home
-      },
-      {
-        path: '/bcar',
-        name: 'Bcar',
-        component: Bcar
-      },
-      {
-        path: '/order',
-        name: 'Order',
-        component: Order
-      },
-      {
-        path: '/register',
-        name: 'Register',
-        component: Register
-      },
-      {
-        path: '/details',
-        name: 'Details',
-        component: Details
-      }
+    children: [{
+      path: '/home',
+      name: '主页',
+      component: Home
+    },
+    {
+      path: '/bcar',
+      name: '购物车',
+      component: Bcar
+    },
+    {
+      path: '/order',
+      name: '订单',
+      component: Order
+    },
+    {
+      path: '/register',
+      name: '用户注册',
+      component: Register
+    },
+    {
+      path: '/details',
+      name: '商品详情',
+      component: Details
+    },
+    {
+      path: '/evaluate',
+      name: '评价商品',
+      component: Evaluate
+    }
     ]
   },
   {
     path: '/login',
-    name: 'Login',
+    name: '登录',
     component: Login
   }
   ]
