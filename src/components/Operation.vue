@@ -10,6 +10,9 @@
         <li>
           <router-link :to="{path:'/bcar'}">购物车 </router-link>
         </li>
+        <li>
+          <router-link :to="{path:'/et'}">我的 </router-link>
+        </li>
       </ul>
     </div>
   </div>

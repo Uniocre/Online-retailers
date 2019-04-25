@@ -6,8 +6,10 @@ import Login from '../views/login/Login.vue'
 import Order from '../views/Backstage/Order.vue'
 import Bcar from '../views/Backstage/BuyCar.vue'
 import Register from '../views/login/Register.vue'
+import Pay from '../views/shop/pay.vue'
 import Details from '../views/shop/Details.vue'
 import Evaluate from '../views/shop/Evaluate.vue'
+import Search from '../views/search/Search.vue'
 import '../styles/index.scss'
 
 Vue.use(Router)
@@ -46,6 +48,16 @@ export default new Router({
       path: '/evaluate',
       name: '评价商品',
       component: Evaluate
+    },
+    {
+      path: '/search',
+      name: '搜索页',
+      component: Search
+    },
+    {
+      path: '/pay',
+      name: '支付页',
+      component: Pay
     }
     ]
   },

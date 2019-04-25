@@ -1,6 +1,5 @@
 <template>
-  <div style="
-  background-color: #9999994a;">
+  <div>
     <Operation></Operation>
     <div class="b_home">
       <!-- 手机号码注册 -->

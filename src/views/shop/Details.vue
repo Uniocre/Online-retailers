@@ -5,7 +5,7 @@
       <!-- 搜索框 -->
       <search class="weq"></search>
       <!-- 商品详情 -->
-      <div class="Exhibition">
+      <div class="Exhibition clearfix">
         <!-- 图片 -->
         <div class="pho di">
           <img src="../../../static/server/3.jpg"
@@ -41,7 +41,7 @@
           <!-- 购买与加入购物成为 -->
           <div class="add m5">
             <div class="one di">&nbsp;</div>
-            <el-button>立即购买</el-button>
+            <el-button @click="gopay">立即购买</el-button>
             <el-button>加入购物车</el-button>
           </div>
           <!-- 承诺 -->
@@ -151,6 +151,9 @@ export default {
   },
   methods: {
     tcall () {
+    },
+    gopay () {
+      this.$router.psh({ path: '/pay' })
     }
   }
 }
@@ -161,15 +164,15 @@ export default {
   width: 1200px;
   margin: 0 auto;
 }
-.fl{
-  li{
+.fl {
+  li {
     float: left;
-    margin-right:10px;
+    margin-right: 10px;
   }
 }
 .user {
   display: inline-block;
-  margin-right:50px;
+  margin-right: 50px;
 }
 .star {
   display: inline-block;

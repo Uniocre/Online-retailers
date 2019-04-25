@@ -569,7 +569,7 @@ export default {
     }
   }
   img {
-    height: 150px;
+    height: 190px;
     width: 100%;
   }
   p {
