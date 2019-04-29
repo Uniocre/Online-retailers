@@ -6,7 +6,7 @@
       <!-- 如果商品数组没有数据则是没有商品在购物车，v-if="car_.length>0"判断数组的长度是否有商品 -->
       <!-- 购物车 -->
       <el-row style="line-height:30px;"
-              v-if="car_.length>0">
+              v-if="tableData.length>0">
         <el-col :span="18">
           <div class="grid-content">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;全部商品 {{totalnum}}</div>
         </el-col>
@@ -19,85 +19,54 @@
                style="text-align:right;">结算</div>
         </el-col>
       </el-row>
-      <!-- 操作栏 -->
-      <el-row style="text-align: center;"
-              v-if="car_.length>0">
-        <el-col :span="3">
-          <div class="grid-content">&nbsp;&nbsp;
-            <el-checkbox v-model="checkAll"
-                         @change="selectTOtal">全选</el-checkbox>
-          </div>
-        </el-col>
-        <el-col :span="3">
-          <div class="grid-content">商品信息</div>
-        </el-col>
-        <el-col :span="5">
-          <div class="grid-content">&nbsp;</div>
-        </el-col>
-        <el-col :span="3">
-          <div class="grid-content">单价</div>
-        </el-col>
-        <el-col :span="4">
-          <div class="grid-content">数量</div>
-        </el-col>
-        <el-col :span="3">
-          <div class="grid-content">金额</div>
-        </el-col>
-        <el-col :span="3">
-          <div class="grid-content">操作</div>
-        </el-col>
-      </el-row>
       <!-- 商品拦 -->
-      <el-row class='b_shop'
-              v-for="(value,index) in car_"
-              :key="index"
-              :show="isTrue"
-              v-if="car_.length>0">
-        <!-- 商品 -->
-        <el-col :span="3">
-          <div class="grid-content car_iput">&nbsp;&nbsp;
-            <el-checkbox v-model="value.isSelect"
-                         @change="handleCheckedCitiesChange(value,index)"></el-checkbox>
-            <img :src="value.car_pho"
-                 alt="">
-          </div>
-        </el-col>
-        <!-- 商品信息 -->
-        <el-col :span="3">
-          <div class="grid-content">{{value.car_commodity}}</div>
-        </el-col>
-        <el-col :span="5">
-          <div class="grid-content">&nbsp;</div>
-        </el-col>
-        <!-- 商品单价 -->
-        <el-col :span="3">
-          <div class="grid-content">{{value.UnitPrice}}</div>
-        </el-col>
-        <!-- 商品数量 -->
-        <el-col :span="4">
-          <div class="grid-content">
-            <!-- 计步器 -->
+      <el-table :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+                style="width: 100%">
+        <el-table-column type="selection"
+                         width="55">
+        </el-table-column>
+        <el-table-column label="商品">
+          <template slot-scope="scope">
+            <img :src="scope.row.car_pho"
+                 alt=""
+                 style="height:30px;width:50px;">
+            <span style="margin-left: 10px">{{ scope.row.car_commodity }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="单价"
+                         prop="UnitPrice">
+        </el-table-column>
+        <el-table-column label="数量">
+          <template slot-scope="scope">
             <el-input-number size="mini"
-                             v-model="value.number"
+                             v-model="scope.row.number"
                              :min="1"
-                             @change="handleChange(value)"></el-input-number>
-          </div>
-        </el-col>
-        <!-- 商品总金额 -->
-        <el-col :span="3">
-          <div class="grid-content"
-               style="color:#c51c1c">￥{{value.totalPricr}}</div>
-        </el-col>
-        <!-- 操作 -->
-        <el-col :span="3">
-          <el-button type="text"
-                     style="color:#333;line-height:0px;"
-                     @click="Delcar(index, value.id)">删除</el-button>
-        </el-col>
-      </el-row>
+                             @change="handleChange(scope.row)"></el-input-number>
+          </template>
+        </el-table-column>
+        <el-table-column label="金额"
+                         prop="totalPricr">
+        </el-table-column>
+        <el-table-column align="right">
+          <template slot="header"
+                    slot-scope="scope">
+            <el-input v-model="search"
+                      size="mini"
+                      placeholder="输入关键字搜索" />
+          </template>
+          <template slot-scope="scope">
+            <el-button size="mini"
+                       type="danger"
+                       @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="div">
+        {{lPrice | filter}}
+      </div>
       <!-- 当购物车为空时 -->
       <!-- 搜索框 -->
-      <el-row v-if="car_.length<=0">
+      <el-row v-if="tableData.length<=0">
         <el-col :span="12"
                 style="text-align:center;margin-top:30px;">
           <el-breadcrumb separator="/">
@@ -116,7 +85,8 @@
         </el-col>
       </el-row>
       <!-- 购物车空文字 -->
-      <div class="car_text" v-if="car_.length<=0">
+      <div class="car_text"
+           v-if="tableData.length<=0">
         <span>你的购物车还是空的，赶紧行动吧!</span>
       </div>
       <!-- 猜你你喜欢 -->
@@ -154,8 +124,36 @@ export default {
       bfg: '1213',
       /* 商品数量 */
       totalnum: '0',
-      /* 购物车商品 */
-      car_: [],
+      lPrice: 0,
+      tableData: [{
+        /* 商品id */
+        id: 1001,
+        /* 图片路径 */
+        car_pho: '../../static/server/7.jpg',
+        /* 商品名称 */
+        car_commodity: '防火墙',
+        /* 商品价格 */
+        car_price: '124',
+        /* 判断商品是否被选中 */
+        isSelect: false,
+        /* 单价 */
+        UnitPrice: 40,
+        /* 商品数量 */
+        number: '2',
+        /* 总价 */
+        totalPricr: 80
+      },
+      {
+        id: 1002,
+        car_pho: '../../static/server/7.jpg',
+        car_commodity: '网关',
+        car_price: '124',
+        UnitPrice: 20,
+        number: '1',
+        totalPricr: 20,
+        isSelect: false
+      }],
+      search: '',
       /* 猜你喜欢 */
       like_: [
         {
@@ -216,6 +214,15 @@ export default {
       ]
     }
   },
+  filters: {
+    filter: function (value) {
+      console.log(value)
+      this.tableData.map((v, i) => {
+        this.lPrice += this.tableData[i].totalPricr
+      })
+      if (!value) return ''
+    }
+  },
   mounted () {
   },
   methods: {
@@ -238,41 +245,24 @@ export default {
         })
       })
     },
+    handleEdit (index, row) {
+      console.log(index, row)
+    },
+    handleDelete (index, row) {
+      console.log(index, row)
+    },
     /* 计步器事件 */
     handleChange (value) {
-      this.car_.filter((v, i) => {
-        if (value.id === this.car_[i].id) {
+      this.tableData.filter((v, i) => {
+        if (value.id === this.tableData[i].id) {
           /* 循环数组当前的id与数组里id相等时
           取当前的单价和num，相乘取总金额数，在赋值到当前商品的总金额数值中 */
           let price = value.UnitPrice
-          let num = this.car_[i].number
+          let num = this.tableData[i].number
           let allPrice = price * num
-          this.car_[i].totalPricr = allPrice
+          this.tableData[i].totalPricr = allPrice
         }
       })
-    },
-    /* 全选 */
-    selectTOtal () {
-      if (this.checkAll) {
-        this.car_.map((v) => {
-          v.isSelect = true
-        })
-      } else {
-        this.car_.map((v) => {
-          v.isSelect = false
-        })
-      }
-    },
-    /* 单选 */
-    handleCheckedCitiesChange (val, index) {
-      let flag = true
-      this.car_.filter((v, i) => {
-        if (!v.isSelect) {
-          flag = false
-        }
-      })
-      /* 赋值给全选按钮 */
-      this.checkAll = flag
     }
   }
 }
