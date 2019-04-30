@@ -32,52 +32,35 @@
           </ul>
           <!-- 确认订单信息 -->
           <p style="margin:10px 0;">确认订单信息</p>
-          <!-- 商品信息拦 -->
-          <el-row :gutter="20"
-                  style="text-align:center">
-            <el-col :span="6">
-              <div class="grid-content bg-purple">商品</div>
-            </el-col>
-            <el-col :span="4">
-              <div class="grid-content bg-purple">商品属性</div>
-            </el-col>
-            <el-col :span="5">
-              <div class="grid-content bg-purple">单价</div>
-            </el-col>
-            <el-col :span="4">
-              <div class="grid-content bg-purple">数量</div>
-            </el-col>
-            <el-col :span="5">
-              <div class="grid-content bg-purple">价格</div>
-            </el-col>
-          </el-row>
           <!-- 商品 -->
-          <div>
-            <el-row style="text-align:center;margin-top:20px;height:50px;line-height:50px;vertical-align:middle;"
-                    v-for="value in commodity"
-                    :key='value.id'>
-              <el-col :span="6">
-                <div class="grid-content bg-purple"><img :src="value.img"
-                       style="width:50px;height:30px;"
-                       alt=""></div>
-              </el-col>
-              <el-col :span="4">
-                <div class="grid-content bg-purple">商品属性</div>
-              </el-col>
-              <el-col :span="5">
-                <div class="grid-content bg-purple">{{value.UnitPrice}}</div>
-              </el-col>
-              <el-col :span="4">
-                <div class="grid-content bg-purple">
-                  <el-input-number v-model="value.number"
-                                   @change="handleChange(value)"
-                                   size="mini"></el-input-number>
-                </div>
-              </el-col>
-              <el-col :span="5">
-                <div class="grid-content bg-purple">{{value.totalPrice}}</div>
-              </el-col>
-            </el-row>
+          <el-table :data="tableData"
+                    style="width: 100%">
+            <el-table-column label="商品">
+              <template slot-scope="scope">
+                <img :src="scope.row.img"
+                     alt=""
+                     style="height:30px;width:50px;">
+                <span style="margin-left: 10px">{{ scope.row.name }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="单价"
+                             prop="UnitPrice">
+            </el-table-column>
+            <el-table-column label="数量"
+                             prop="number">
+              <template slot-scope="scope">
+                <el-input-number size="mini"
+                                 v-model="scope.row.number"
+                                 :min="1"
+                                 @change="handleChange(scope.row)"></el-input-number>
+              </template>
+            </el-table-column>
+            <el-table-column label="金额"
+                             prop="totalPrice">
+            </el-table-column>
+          </el-table>
+          <div class="div">
+            {{calculatePrice}}
           </div>
         </div>
       </div>
@@ -110,70 +93,81 @@ export default {
           name: '么么么'
         }
       ],
-      /*  */
-      commodity: [
-        {
-          /* 商品 */
-          /* 图片 */
-          img: '../../../static/server/4.jpg',
-          id: '1001',
-          /* 商品类型 */
-          type_id: '1',
-          /* 商品名称 */
-          name: '刀片服务器',
-          /* 商品单价 */
-          UnitPrice: 40,
-          /* 商品数量 */
-          number: '2',
-          /* 总价 */
-          totalPrice: 80
-        },
-        {
-          /* 商品 */
-          /* 图片 */
-          img: '../../../static/server/4.jpg',
-          id: '1002',
-          /* 商品类型 */
-          type_id: '2',
-          /* 商品名称 */
-          name: '刀片服务器',
-          /* 商品单价 */
-          UnitPrice: 20,
-          /* 商品数量 */
-          number: '1',
-          /* 总价 */
-          totalPrice: 20
-        }
-      ]
+      /* 商品 */
+      tableData: [{
+        /* 商品 */
+        /* 图片 */
+        img: '../../../static/server/4.jpg',
+        id: '1001',
+        /* 商品类型 */
+        type_id: '1',
+        /* 商品名称 */
+        name: '刀片服务器',
+        /* 商品单价 */
+        UnitPrice: 40,
+        /* 商品数量 */
+        number: '2',
+        /* 总价 */
+        totalPrice: null
+      },
+      {
+        /* 商品 */
+        /* 图片 */
+        img: '../../../static/server/4.jpg',
+        id: '1002',
+        /* 商品类型 */
+        type_id: '2',
+        /* 商品名称 */
+        name: '刀片服务器',
+        /* 商品单价 */
+        UnitPrice: 20,
+        /* 商品数量 */
+        number: '1',
+        /* 总价 */
+        totalPrice: null
+      }]
     }
   },
   /* 过滤器 */
   filters: {
     capitalize: function (value) {
-      console.log(value)
       if (!value) return ''
     }
   },
+  computed: {
+    calculatePrice: function () {
+      let total1 = 0
+      this.tableData.filter((v, i) => {
+        total1 += v.UnitPrice * v.number
+      })
+      return total1
+    }
+  },
   mounted () {
-    this.tcall()
+    this.Lprice()
   },
   methods: {
-    tcall () {
-    },
     goedit () { },
+    /* 商品金额 */
+    Lprice () {
+      this.tableData.filter((v, i) => {
+        v.totalPrice = v.UnitPrice * v.number
+      })
+    },
+    /* 商品金额总价 */
     next () {
       if (this.active++ > 2) this.active = 0
     },
     /* 计步器事件 */
     handleChange (value) {
-      this.commodity.filter((v, i) => {
-        if (value.id === this.commodity[i].id) {
+      this.tableData.filter((v, i) => {
+        if (value.id === this.tableData[i].id) {
           /* 循环数组当前的id与数组里id相等时
           取当前的单价和num，相乘取总金额数，在赋值到当前商品的总金额数值中 */
-          let price = value.UnitPrice
-          let num = this.commodity[i].number
+          let price = v.UnitPrice
+          let num = v.number
           let allPrice = price * num
-          this.commodity[i].totalPrice = allPrice
+          v.totalPrice = allPrice
         }
       })
     }

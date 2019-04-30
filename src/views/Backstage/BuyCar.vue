@@ -20,8 +20,11 @@
         </el-col>
       </el-row>
       <!-- 商品拦 -->
-      <el-table :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
-                style="width: 100%">
+      <el-table ref="multipleTable"
+                :data="tableData"
+                tooltip-effect="dark"
+                style="width: 100%"
+                @selection-change="handleSelectionChange">
         <el-table-column type="selection"
                          width="55">
         </el-table-column>
@@ -45,7 +48,7 @@
           </template>
         </el-table-column>
         <el-table-column label="金额"
-                         prop="totalPricr">
+                         prop="totalPrice">
         </el-table-column>
         <el-table-column align="right">
           <template slot="header"
@@ -62,7 +65,7 @@
         </el-table-column>
       </el-table>
       <div class="div">
-        {{lPrice | filter}}
+        {{calculatePrice}}
       </div>
       <!-- 当购物车为空时 -->
       <!-- 搜索框 -->
@@ -124,7 +127,9 @@ export default {
       bfg: '1213',
       /* 商品数量 */
       totalnum: '0',
-      lPrice: 0,
+      totalPrice: 0,
+      /* 商品的选择情况 */
+      multipleSelection: [],
       tableData: [{
         /* 商品id */
         id: 1001,
@@ -134,14 +139,11 @@ export default {
         car_commodity: '防火墙',
         /* 商品价格 */
         car_price: '124',
-        /* 判断商品是否被选中 */
-        isSelect: false,
         /* 单价 */
         UnitPrice: 40,
         /* 商品数量 */
         number: '2',
-        /* 总价 */
-        totalPricr: 80
+        totalPrice: null
       },
       {
         id: 1002,
@@ -150,8 +152,7 @@ export default {
         car_price: '124',
         UnitPrice: 20,
         number: '1',
-        totalPricr: 20,
-        isSelect: false
+        totalPrice: null
       }],
       search: '',
       /* 猜你喜欢 */
@@ -215,15 +216,22 @@ export default {
     }
   },
   filters: {
-    filter: function (value) {
-      console.log(value)
-      this.tableData.map((v, i) => {
-        this.lPrice += this.tableData[i].totalPricr
+  },
+  computed: {
+    calculatePrice: function () {
+      let total = 0
+      let total1 = 0
+      this.tableData.filter((v, i) => {
+        total1 += v.UnitPrice * v.number
       })
-      if (!value) return ''
+      this.multipleSelection.filter((v, i) => {
+        total += v.UnitPrice * v.number
+      })
+      return total || total1
     }
   },
   mounted () {
+    this.Price()
   },
   methods: {
     /* 删除商品 */
@@ -245,11 +253,26 @@ export default {
         })
       })
     },
-    handleEdit (index, row) {
-      console.log(index, row)
+    /* 商品金额总价 */
+    Price () {
+      this.tableData.filter((v, i) => {
+        v.totalPrice = v.UnitPrice * v.number
+      })
+    },
+    toggleSelection (rows) {
+      if (rows) {
+        rows.forEach(row => {
+          this.$refs.multipleTable.toggleRowSelection(row)
+        })
+      } else {
+        this.$refs.multipleTable.clearSelection()
+      }
+    },
+    /* 商品拦全选勾起事件 */
+    handleSelectionChange (val) {
+      this.multipleSelection = val
     },
     handleDelete (index, row) {
-      console.log(index, row)
     },
     /* 计步器事件 */
     handleChange (value) {
@@ -257,10 +280,10 @@ export default {
         if (value.id === this.tableData[i].id) {
           /* 循环数组当前的id与数组里id相等时
           取当前的单价和num，相乘取总金额数，在赋值到当前商品的总金额数值中 */
-          let price = value.UnitPrice
-          let num = this.tableData[i].number
+          let price = v.UnitPrice
+          let num = v.number
           let allPrice = price * num
-          this.tableData[i].totalPricr = allPrice
+          v.totalPrice = allPrice
         }
       })
     }
