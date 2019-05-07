@@ -58,11 +58,11 @@ export default {
   },
   data () {
     /* 验证码格式 */
-    var checkVaira = (rule, value, callback) => {
+    let checkVaira = (rule, value, callback) => {
       callback()
     }
     /* 手机号码 */
-    var checkPhone = (rule, value, callback) => {
+    let checkPhone = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入手机号码'))
       } else {
@@ -74,28 +74,28 @@ export default {
       }
     }
     /* 用户名（可以中英文与数字，不能带特殊符号） */
-    var checkName = (rule, value, callback) => {
+    let checkName = (rule, value, callback) => {
       const ebb = value.trim()
       if (ebb === '') {
         return callback(new Error('请输入用户名'))
       }
       /* 判断是否有非法字符(除了中英文、数字、下划线以外的字符) */
-      var charReg = /[^\u4E00-\u9FA5\w]/
-      var res = charReg.test(ebb)
+      let charReg = /[^\u4E00-\u9FA5\w]/
+      let res = charReg.test(ebb)
       /* 如果res为真即代表，有特殊符号 */
       if (res) {
         callback(new Error('用户名仅支持中英文、数字和下划线,且不能为纯数字'))
       }
       /* 不能为纯数字 */
-      var numReg = /\D/
+      let numReg = /\D/
       res = numReg.test(ebb)
       if (!res) {
         callback(new Error('用户名仅支持中英文、数字和下划线,且不能为纯数字'))
       }
       /* 设置用户名的长度 */
-      var len = 0
-      var china = /[\u4E00-\u9FA5]/
-      for (var i = 0; i < ebb.length; i++) {
+      let len = 0
+      let china = /[\u4E00-\u9FA5]/
+      for (let i = 0; i < ebb.length; i++) {
         /* 如果值为中文，就为两个字符节 */
         if (china.test(ebb[i])) {
           len += 2
@@ -115,7 +115,7 @@ export default {
       }
     }
     /* 密码 */
-    var validatePass = (rule, value, callback) => {
+    let validatePass = (rule, value, callback) => {
       if (value === '') {
         return callback(new Error('请输入密码'))
       } else {
@@ -128,7 +128,7 @@ export default {
       }
     }
     /* 第二次和第一次密码得相同 */
-    var validatePass2 = (rule, value, callback) => {
+    let validatePass2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'))
       } else if (value !== this.form.pass) {

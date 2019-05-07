@@ -24,10 +24,11 @@
           <!-- 收货地址选择 -->
           <div class="shouhuo">
             <p style="margin-top:20px;">寄送至:</p>
-            <ul v-for="(value,index) in address"
-                :key="index"
-                class="payaddress">
-              <li>{{value.address}} ({{value.name}} 收) {{value.phone}}</li>
+            <ul>
+              <li v-for="(value,index) in address"
+                  :key="index"
+                  :class='{payaddress1 : index == active1,payaddress:true}'
+                  @click="sleectAddress(value, index)">{{value.address}} ({{value.name}} 收) {{value.phone}}</li>
             </ul>
             <!-- 添加收货地址 -->
 
@@ -36,7 +37,7 @@
 
             <el-dialog title="提示"
                        :visible.sync="dialogVisible"
-                       width="80%"
+                       width="50%"
                        :before-close="handleClose">
               <el-form :model="ruleForm"
                        :rules="rules"
@@ -44,81 +45,31 @@
                        label-width="100px"
                        class="demo-ruleForm">
                 <el-form-item label="地址信息"
-                              prop="name">
+                              prop="selectedOptions">
                   <el-cascader :options="options"
-                               v-model="selectedOptions"></el-cascader>
+                               v-model="ruleForm.selectedOptions"></el-cascader>
                 </el-form-item>
-                <el-form-item label="活动区域"
+                <el-form-item label="详细地址"
                               prop="region">
-                  <el-select v-model="ruleForm.region"
-                             placeholder="请选择活动区域">
-                    <el-option label="区域一"
-                               value="shanghai"></el-option>
-                    <el-option label="区域二"
-                               value="beijing"></el-option>
-                  </el-select>
+                  <el-input v-model="ruleForm.DetailedAddress"></el-input>
                 </el-form-item>
-                <el-form-item label="活动时间"
-                              required>
-                  <el-col :span="11">
-                    <el-form-item prop="date1">
-                      <el-date-picker type="date"
-                                      placeholder="选择日期"
-                                      v-model="ruleForm.date1"
-                                      style="width: 100%;"></el-date-picker>
-                    </el-form-item>
-                  </el-col>
-                  <el-col class="line"
-                          :span="2">-</el-col>
-                  <el-col :span="11">
-                    <el-form-item prop="date2">
-                      <el-time-picker placeholder="选择时间"
-                                      v-model="ruleForm.date2"
-                                      style="width: 100%;"></el-time-picker>
-                    </el-form-item>
-                  </el-col>
+                <el-form-item label="邮政编码">
+                  <el-input v-model="ruleForm.PostalCode"></el-input>
                 </el-form-item>
-                <el-form-item label="即时配送"
-                              prop="delivery">
-                  <el-switch v-model="ruleForm.delivery"></el-switch>
+                <el-form-item label="收货人姓名"
+                              prop="name">
+                  <el-input v-model="ruleForm.name"></el-input>
                 </el-form-item>
-                <el-form-item label="活动性质"
-                              prop="type">
-                  <el-checkbox-group v-model="ruleForm.type">
-                    <el-checkbox label="美食/餐厅线上活动"
-                                 name="type"></el-checkbox>
-                    <el-checkbox label="地推活动"
-                                 name="type"></el-checkbox>
-                    <el-checkbox label="线下主题活动"
-                                 name="type"></el-checkbox>
-                    <el-checkbox label="单纯品牌曝光"
-                                 name="type"></el-checkbox>
-                  </el-checkbox-group>
-                </el-form-item>
-                <el-form-item label="特殊资源"
-                              prop="resource">
-                  <el-radio-group v-model="ruleForm.resource">
-                    <el-radio label="线上品牌商赞助"></el-radio>
-                    <el-radio label="线下场地免费"></el-radio>
-                  </el-radio-group>
-                </el-form-item>
-                <el-form-item label="活动形式"
-                              prop="desc">
-                  <el-input type="textarea"
-                            v-model="ruleForm.desc"></el-input>
+                <el-form-item label="手机号码"
+                              prop="Phone">
+                  <el-input v-model="ruleForm.Phone"></el-input>
                 </el-form-item>
                 <el-form-item>
+                  <el-button @click="dialogVisible = false">取 消</el-button>
                   <el-button type="primary"
-                             @click="submitForm('ruleForm')">立即创建</el-button>
-                  <el-button @click="resetForm('ruleForm')">重置</el-button>
+                             @click="dialogVisible = false">保存</el-button>
                 </el-form-item>
               </el-form>
-              <span slot="footer"
-                    class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary"
-                           @click="dialogVisible = false">保存</el-button>
-              </span>
             </el-dialog>
           </div>
           <!-- 确认订单信息 -->
@@ -160,6 +111,20 @@
       <el-button style="margin-top: 20px;
       float:right"
                  @click="next">确认订单</el-button>
+      <!-- 猜你你喜欢 -->
+      <div class="clike">
+        <div class="title">猜你喜欢</div>
+        <ul>
+          <li v-for="(value, index) in like_"
+              :key='index'>
+            <img :src="value.pho"
+                 alt="">
+            <p style="color:red;text-align:center">￥{{value.UnitPrice}}</p>
+            <p style="text-align:center">{{value.commodity}}</p>
+            <p style="color:#333;font-size:14px">月销{{value.Monthlysales}}</p>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -171,45 +136,195 @@ export default {
     Operation
   },
   data () {
+    /* 手机号码 */
+    let Phone = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入手机号码'))
+      } else {
+        if (/^1[34578]\d{9}$/.test(value)) {
+          callback()
+        } else {
+          callback(new Error('手机号码格式有误'))
+        }
+      }
+    }
+    /* 用户名（可以中英文与数字，不能带特殊符号） */
+    let checkName = (rule, value, callback) => {
+      const ebb = value.trim()
+      if (ebb === '') {
+        return callback(new Error('请输入用户名'))
+      }
+      /* 判断是否有非法字符(除了中英文、数字、下划线以外的字符) */
+      let charReg = /[^\u4E00-\u9FA5\w]/
+      let res = charReg.test(ebb)
+      /* 如果res为真即代表，有特殊符号 */
+      if (res) {
+        callback(new Error('用户名仅支持中英文、数字和下划线,且不能为纯数字'))
+      }
+      /* 不能为纯数字 */
+      let numReg = /\D/
+      res = numReg.test(ebb)
+      if (!res) {
+        callback(new Error('用户名仅支持中英文、数字和下划线,且不能为纯数字'))
+      }
+      /* 设置用户名的长度 */
+      let len = 0
+      let china = /[\u4E00-\u9FA5]/
+      for (let i = 0; i < ebb.length; i++) {
+        /* 如果值为中文，就为两个字符节 */
+        if (china.test(ebb[i])) {
+          len += 2
+        } else {
+          len += 1
+        }
+        // 尽量避免执行过多的次数，一旦len超过14就不满足条件了
+        if (len > 14) {
+          callback(new Error('中文仅限7个与字符串仅限14个'))
+        }
+      }
+      /* 如果超过7个汉字或者12个字符串 */
+      if (len.length > 14) {
+        return callback(new Error('中文仅限7个与字符串仅限14个'))
+      } else {
+        callback()
+      }
+    }
     return {
+      active1: -1,
+      pay: 'payaddress',
+      /* 猜你喜欢 */
+      like_: [
+        {
+          /* 商品id */
+          id: 1001,
+          /* 图片路径 */
+          pho: '../../static/server/6.jpg',
+          /* 商品名称 */
+          commodity: '防火墙',
+          /* 单价 */
+          UnitPrice: '40',
+          /* 月销 */
+          Monthlysales: '567'
+        },
+        {
+          /* 商品id */
+          id: 1002,
+          /* 图片路径 */
+          pho: '../../static/server/2.jpg',
+          /* 商品名称 */
+          commodity: '网关',
+          /* 单价 */
+          UnitPrice: '50',
+          /* 月销 */
+          Monthlysales: '345'
+        },
+        {
+          /* 商品id */
+          id: 1003,
+          /* 图片路径 */
+          pho: '../../static/server/1.jpg',
+          /* 商品名称 */
+          commodity: 'web应用防火墙',
+          /* 单价 */
+          UnitPrice: '20',
+          /* 月销 */
+          Monthlysales: '78'
+        },
+        {
+          /* 商品id */
+          id: 1004,
+          /* 图片路径 */
+          pho: '../../static/server/3.jpg',
+          /* 商品名称 */
+          commodity: '入侵方策系统',
+          /* 单价 */
+          UnitPrice: '90',
+          /* 月销 */
+          Monthlysales: '5267'
+        },
+        {
+          id: 1002,
+          pho: '../../static/server/4.jpg',
+          commodity: '防病毒网关',
+          UnitPrice: '230',
+          Monthlysales: '4576'
+        }
+      ],
       /* 管理收货地址弹框 */
       dialogVisible: false,
       /* 地区选择 */
-      options: [],
+      options: [
+        {
+          'label': '北京市',
+          'value': '2',
+          'level': 1,
+          'parentId': '1',
+          'children': [
+            {
+              'label': '北京',
+              'value': '52',
+              'level': 2,
+              'parentId': '2',
+              'children': [
+                {
+                  'label': '东城区',
+                  'value': '500',
+                  'level': 3,
+                  'parentId': '52'
+                }
+              ]
+            }
+          ]
+        },
+        {
+          'label': '北京市',
+          'value': '2',
+          'level': 1,
+          'parentId': '1',
+          'children': [
+            {
+              'label': '北京',
+              'value': '52',
+              'level': 2,
+              'parentId': '2',
+              'children': [
+                {
+                  'label': '东城区',
+                  'value': '500',
+                  'level': 3,
+                  'parentId': '52'
+                }
+              ]
+            }
+          ]
+        }
+      ],
       /* 收货信息表单 */
       ruleForm: {
+        /* 详细地址 */
+        DetailedAddress: '',
+        /* 邮政编码 */
+        PostalCode: '',
+        /* 收货人姓名 */
         name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
+        /* 手机号码 */
+        Phone: '',
+        /* 选择 */
+        selectedOptions: ''
       },
       /* 规则验证 */
       rules: {
         name: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, validator: checkName, trigger: 'blur' }
         ],
         region: [
-          { required: true, message: '请选择活动区域', trigger: 'change' }
+          { required: true, message: '请填写详细地址', trigger: 'change' }
         ],
-        date1: [
-          { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+        selectedOptions: [
+          { type: 'date', required: true, message: '请选择地址', trigger: 'change' }
         ],
-        date2: [
-          { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
-        ],
-        type: [
-          { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
-        ],
-        resource: [
-          { required: true, message: '请选择活动资源', trigger: 'change' }
-        ],
-        desc: [
-          { required: true, message: '请填写活动形式', trigger: 'blur' }
+        Phone: [
+          { required: true, validator: Phone, trigger: 'blur' }
         ]
       },
       /* 步骤条 */
@@ -263,12 +378,6 @@ export default {
       }]
     }
   },
-  /* 过滤器 */
-  filters: {
-    capitalize: function (value) {
-      if (!value) return ''
-    }
-  },
   computed: {
     calculatePrice: function () {
       let total1 = 0
@@ -282,15 +391,12 @@ export default {
     this.Lprice()
   },
   methods: {
-    /* 管理收货地址 */
-    handleClose (done) {
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          done()
-        })
-        .catch(_ => { })
+    /* 弹窗关闭前，发生的事件 */
+    handleClose () { },
+    /* 选择收货地址 */
+    sleectAddress (value, index) {
+      this.active1 = index
     },
-    goedit () { },
     /* 商品金额 */
     Lprice () {
       this.tableData.filter((v, i) => {
@@ -323,6 +429,35 @@ export default {
   width: 1200px;
   margin: 20px auto;
 }
+.clike {
+  margin-top: 100px;
+  .title {
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    font-weight: 600;
+    border-bottom: 5px solid #999;
+    margin-bottom: 10px;
+    text-indent: 20px;
+  }
+  ul {
+    li {
+      display: inline-block;
+      height: 250px;
+      width: 220px;
+      padding: 10px;
+      img {
+        width: 220px;
+        height: 150px;
+        display: block;
+        margin: 0 auto;
+      }
+      p {
+        margin: 10px 0;
+      }
+    }
+  }
+}
 .addres {
   margin-top: 20px;
 }
@@ -332,11 +467,14 @@ export default {
 }
 /* 地址 */
 .payaddress {
-  li {
-    text-indent: 12px;
-    margin: 5px auto;
-    height: 30px;
-    line-height: 30px;
-  }
+  text-indent: 12px;
+  margin: 5px auto;
+  height: 30px;
+}
+.payaddress1 {
+  text-indent: 12px;
+  margin: 5px auto;
+  height: 30px;
+  outline: 1px solid #333;
 }
 </style>
