@@ -7,16 +7,15 @@
              style="height: 57px;width: 200px;float: left; display: inline-block;"
              alt="">
         <!-- 步骤条 -->
-        <el-steps :active="active"
+        <el-steps :active="gfer"
                   style="width:700px;float:right;"
                   finish-status="success">
           <el-step title="拍下商品"></el-step>
           <el-step title="确认收货"></el-step>
-          <el-step title="确认收货"></el-step>
         </el-steps>
       </div>
       <!-- 拍下商品 -->
-      <div v-show="active === 0">
+      <div v-show="gfer === 1">
         <div class="addres clearfic">
           <div class="address-top">
             <p>确认收货地址</p>
@@ -31,7 +30,6 @@
                   @click="sleectAddress(value, index)">{{value.address}} ({{value.name}} 收) {{value.phone}}</li>
             </ul>
             <!-- 添加收货地址 -->
-
             <el-button type="text"
                        @click="dialogVisible = true">添加收货地址</el-button>
 
@@ -108,9 +106,41 @@
           </div>
         </div>
       </div>
-      <el-button style="margin-top: 20px;
+      <el-button v-show="gfer === 1"
+                 style="margin-top: 20px;
       float:right"
                  @click="next">确认订单</el-button>
+      <!-- 确认订单后，物流走向 -->
+      <div v-show="gfer === 0">
+        <el-steps :active="gfeb"
+                  direction="vertical"
+                  class="processing_content">
+          <el-step v-for="item in approvalProcessProject"
+                   :key="item.id"
+                   icon="el-icon-location">
+            <template slot="description">
+              <div class="step-row">
+                <table width="100%"
+                       border="0"
+                       cellspacing="0"
+                       cellpadding="0">
+                  <tr>
+                    <td class="fs"
+                        style="width: 150px;">{{item.event_time}} &nbsp;&nbsp;{{item.event_SameDay}} </td>
+                    <td style="font-size:14px;">
+                      <div v-for="(value, index) in item.event_children"
+                           :key="index">
+                        {{value.time}} &nbsp;&nbsp;&nbsp;&nbsp;{{value.content}}
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </template>
+          </el-step>
+        </el-steps>
+        <div></div>
+      </div>
       <!-- 猜你你喜欢 -->
       <div class="clike">
         <div class="title">猜你喜欢</div>
@@ -190,6 +220,31 @@ export default {
       }
     }
     return {
+      /* 竖行步骤条 */
+      gfeb: 1,
+      /* 物流更新步骤条 */
+      approvalProcessProject: [
+        {
+          id: '0',
+          event_time: '2019-5-07',
+          event_SameDay: '周二',
+          event_children: [
+            { time: '15:58:37', content: '商品已经下单' },
+            { time: '16:43:49', content: '订单开始处理' }
+          ]
+        },
+        {
+          id: '1',
+          event_time: '2019-5-08',
+          event_SameDay: '周三',
+          event_children: [
+            { time: '10:58:57', content: '您的订单待配货' },
+            { time: '10:43:46', content: '您的包裹已出库' },
+            { time: '10:43:48', content: '包裹正在等待揽收' }
+          ]
+        }
+      ],
+      /* 地址选择li的对比值 */
       active1: -1,
       pay: 'payaddress',
       /* 猜你喜欢 */
@@ -328,7 +383,7 @@ export default {
         ]
       },
       /* 步骤条 */
-      active: 0,
+      gfer: 0,
       /* 全部商品总价 */
       Price: 0,
       /* 收货地址 */
@@ -389,8 +444,15 @@ export default {
   },
   mounted () {
     this.Lprice()
+    this.gf()
   },
   methods: {
+    /*  */
+    gf () {
+      this.approvalProcessProject.map(item => {
+        this.gref = item.id
+      })
+    },
     /* 弹窗关闭前，发生的事件 */
     handleClose () { },
     /* 选择收货地址 */
@@ -405,7 +467,7 @@ export default {
     },
     /* 商品金额总价 */
     next () {
-      if (this.active++ > 2) this.active = 0
+      if (this.gfer++ > 2) this.gfer = 0
     },
     /* 计步器事件 */
     handleChange (value) {
@@ -428,6 +490,27 @@ export default {
 .b_home {
   width: 1200px;
   margin: 20px auto;
+}
+.el-step__icon-inner[class*="el-icon"]:not(.is-status) {
+  background-color: #d9e5f9;
+}
+.fs {
+  font-size: 15px;
+  font-weight: 600;
+}
+.el-step.is-vertical .el-step__main {
+  margin-top: -12px;
+}
+.processing_content {
+  background-color: #d9e5f9;
+  padding: 25px 20px;
+}
+/* 竖行步骤条 */
+.step-row {
+  min-width: 500px;
+  margin-bottom: 12px;
+  margin-top: 12px;
+  color: #333;
 }
 .clike {
   margin-top: 100px;
@@ -470,10 +553,12 @@ export default {
   text-indent: 12px;
   margin: 5px auto;
   height: 30px;
+  line-height: 30px;
 }
 .payaddress1 {
   text-indent: 12px;
   margin: 5px auto;
+  line-height: 30px;
   height: 30px;
   outline: 1px solid #333;
 }
