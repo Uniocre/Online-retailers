@@ -11,11 +11,12 @@
                   style="width:700px;float:right;"
                   finish-status="success">
           <el-step title="拍下商品"></el-step>
+          <el-step title="付款页面"></el-step>
           <el-step title="确认收货"></el-step>
         </el-steps>
       </div>
       <!-- 拍下商品 -->
-      <div v-show="gfer === 1">
+      <div v-show="gfer === 0">
         <div class="addres clearfic">
           <div class="address-top">
             <p>确认收货地址</p>
@@ -106,12 +107,12 @@
           </div>
         </div>
       </div>
-      <el-button v-show="gfer === 1"
+      <el-button v-show="gfer === 0"
                  style="margin-top: 20px;
       float:right"
                  @click="next">确认订单</el-button>
       <!-- 确认订单后，物流走向 -->
-      <div v-show="gfer === 0">
+      <div v-show="gfer === 2">
         <el-steps :active="gfeb"
                   direction="vertical"
                   class="processing_content">
@@ -139,7 +140,18 @@
             </template>
           </el-step>
         </el-steps>
-        <div></div>
+        <div class="opation"
+             v-for="item in order"
+             :key="item.id">
+          <ul>
+            <li>运单号码:{{item.id}}</li>
+            <li>物流公司:{{item.wuliu}}</li>
+            <li v-for="(value,index) in item.fahuo"
+                :key="index">发货地址:{{value.fahuoaddress}}{{value.fahuoaddress1}}{{value.bianma}}{{value.phone}}{{value.name}}</li>
+            <li v-for="(value,index) in item.shouhuo"
+                :key="index">收货地址:{{value.fahuoaddress}}{{value.fahuoaddress1}}{{value.bianma}}{{value.phone}}{{value.name}}</li>
+          </ul>
+        </div>
       </div>
       <!-- 猜你你喜欢 -->
       <div class="clike">
@@ -220,6 +232,27 @@ export default {
       }
     }
     return {
+      /* 订单信息 */
+      order: [
+        {
+          id: 71637246924019,
+          wuliu: '顺丰',
+          fahuo: [
+            { fahuoaddress: '浙江省金华市浦江县',
+              fahuoaddress1: '黄宅镇中山工业园区庆工路68号',
+              name: '卓尔雅',
+              phone: '12455774896',
+              bianma: '322202' }
+          ],
+          shouhuo: [
+            { fahuoaddress: '广东省广州市天河区',
+              fahuoaddress1: '',
+              phone: '13999948498',
+              bianma: '000000',
+              name: '流年过于' }
+          ]
+        }
+      ],
       /* 竖行步骤条 */
       gfeb: 1,
       /* 物流更新步骤条 */
@@ -490,6 +523,10 @@ export default {
 .b_home {
   width: 1200px;
   margin: 20px auto;
+}
+/* 订单信息 */
+.opation {
+  margin-top:50px;
 }
 .el-step__icon-inner[class*="el-icon"]:not(.is-status) {
   background-color: #d9e5f9;
