@@ -91,8 +91,9 @@
         <div class="M_top">{{value.M_type}}</div>
         <ul>
           <li v-for="( value2, index2) in value.M_children"
-              :key='index2'>
-            <img :src=value2.M_address
+              :key='index2'
+              @click="gocheck(value2)">
+            <img :src="value2.M_address"
                  alt="">
             <p>{{value2.M_information}}</p>
             <p class="M_price">{{value2.M_price}}</p>
@@ -114,17 +115,38 @@ export default {
       /* 商品宣传 */
       Mail: [
         {
-          M_type: 'DDos攻击防御',
+          M_type: 'web应用防火墙',
+          type_id: '1',
           M_children: [
             {
               M_name: 'S5720-28P-PWR-LI_AC',
               M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
               M_price: '1234',
+              id: '11',
+              shengyu: '2131',
               M_address: '../../static/server/8.jpg'
             },
             {
               M_name: 'S5740-28P-PWR-LI_AC',
               M_price: '1234',
+              id: '12',
+              shengyu: '2131',
+              M_information: '24个10/100/1000Base-T 以太网端口',
+              M_address: '../../static/server/8.jpg'
+            },
+            {
+              M_name: 'S5720-28P-PWR-LI_AC',
+              M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
+              id: '13',
+              shengyu: '2131',
+              M_price: '1234',
+              M_address: '../../static/server/8.jpg'
+            },
+            {
+              M_name: 'S5740-28P-PWR-LI_AC',
+              M_price: '1234',
+              id: '14',
+              shengyu: '2131',
               M_information: '24个10/100/1000Base-T 以太网端口',
               M_address: '../../static/server/8.jpg'
             },
@@ -132,11 +154,15 @@ export default {
               M_name: 'S5720-28P-PWR-LI_AC',
               M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
               M_price: '1234',
+              id: '15',
+              shengyu: '2131',
               M_address: '../../static/server/8.jpg'
             },
             {
               M_name: 'S5740-28P-PWR-LI_AC',
               M_price: '1234',
+              id: '16',
+              shengyu: '2131',
               M_information: '24个10/100/1000Base-T 以太网端口',
               M_address: '../../static/server/8.jpg'
             },
@@ -144,11 +170,15 @@ export default {
               M_name: 'S5720-28P-PWR-LI_AC',
               M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
               M_price: '1234',
+              id: '17',
+              shengyu: '123',
               M_address: '../../static/server/8.jpg'
             },
             {
               M_name: 'S5740-28P-PWR-LI_AC',
               M_price: '1234',
+              id: '18',
+              shengyu: '123',
               M_information: '24个10/100/1000Base-T 以太网端口',
               M_address: '../../static/server/8.jpg'
             },
@@ -156,40 +186,37 @@ export default {
               M_name: 'S5720-28P-PWR-LI_AC',
               M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
               M_price: '1234',
+              id: '19',
+              shengyu: '123',
               M_address: '../../static/server/8.jpg'
             },
             {
               M_name: 'S5740-28P-PWR-LI_AC',
               M_price: '1234',
-              M_information: '24个10/100/1000Base-T 以太网端口',
-              M_address: '../../static/server/8.jpg'
-            },
-            {
-              M_name: 'S5720-28P-PWR-LI_AC',
-              M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
-              M_price: '1234',
-              M_address: '../../static/server/8.jpg'
-            },
-            {
-              M_name: 'S5740-28P-PWR-LI_AC',
-              M_price: '1234',
+              id: '110',
+              shengyu: '123',
               M_information: '24个10/100/1000Base-T 以太网端口',
               M_address: '../../static/server/8.jpg'
             }
           ]
         },
         {
-          M_type: 'web应用防火墙',
+          M_type: 'DDos攻击防御',
+          type_id: '2',
           M_children: [
             {
               M_name: 'S5720-28P-PWR-LI_AC',
               M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
               M_price: '1234',
+              id: '21',
+              shengyu: '123',
               M_address: '../../static/server/8.jpg'
             },
             {
               M_name: 'S5740-28P-PWR-LI_AC',
               M_price: '1234',
+              id: '22',
+              shengyu: '123',
               M_information: '24个10/100/1000Base-T 以太网端口',
               M_address: '../../static/server/8.jpg'
             },
@@ -197,11 +224,15 @@ export default {
               M_name: 'S5720-28P-PWR-LI_AC',
               M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
               M_price: '1234',
+              id: '23',
+              shengyu: '123',
               M_address: '../../static/server/8.jpg'
             },
             {
               M_name: 'S5740-28P-PWR-LI_AC',
               M_price: '1234',
+              id: '24',
+              shengyu: '123',
               M_information: '24个10/100/1000Base-T 以太网端口',
               M_address: '../../static/server/8.jpg'
             },
@@ -209,11 +240,15 @@ export default {
               M_name: 'S5720-28P-PWR-LI_AC',
               M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
               M_price: '1234',
+              id: '25',
+              shengyu: '123',
               M_address: '../../static/server/8.jpg'
             },
             {
               M_name: 'S5740-28P-PWR-LI_AC',
               M_price: '1234',
+              id: '26',
+              shengyu: '123',
               M_information: '24个10/100/1000Base-T 以太网端口',
               M_address: '../../static/server/8.jpg'
             },
@@ -221,11 +256,15 @@ export default {
               M_name: 'S5720-28P-PWR-LI_AC',
               M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
               M_price: '1234',
+              id: '27',
+              shengyu: '123',
               M_address: '../../static/server/8.jpg'
             },
             {
               M_name: 'S5740-28P-PWR-LI_AC',
               M_price: '1234',
+              id: '28',
+              shengyu: '123',
               M_information: '24个10/100/1000Base-T 以太网端口',
               M_address: '../../static/server/8.jpg'
             },
@@ -233,11 +272,15 @@ export default {
               M_name: 'S5720-28P-PWR-LI_AC',
               M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
               M_price: '1234',
+              id: '29',
+              shengyu: '123',
               M_address: '../../static/server/8.jpg'
             },
             {
               M_name: 'S5740-28P-PWR-LI_AC',
               M_price: '1234',
+              id: '210',
+              shengyu: '123',
               M_information: '24个10/100/1000Base-T 以太网端口',
               M_address: '../../static/server/8.jpg'
             }
@@ -245,16 +288,21 @@ export default {
         },
         {
           M_type: '安全接入网关',
+          type_id: '3',
           M_children: [
             {
               M_name: 'S5720-28P-PWR-LI_AC',
               M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
               M_price: '1234',
+              id: '31',
+              shengyu: '123',
               M_address: '../../static/server/8.jpg'
             },
             {
               M_name: 'S5740-28P-PWR-LI_AC',
               M_price: '1234',
+              id: '32',
+              shengyu: '123',
               M_information: '24个10/100/1000Base-T 以太网端口',
               M_address: '../../static/server/8.jpg'
             },
@@ -262,11 +310,15 @@ export default {
               M_name: 'S5720-28P-PWR-LI_AC',
               M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
               M_price: '1234',
+              id: '33',
+              shengyu: '123',
               M_address: '../../static/server/8.jpg'
             },
             {
               M_name: 'S5740-28P-PWR-LI_AC',
               M_price: '1234',
+              id: '34',
+              shengyu: '123',
               M_information: '24个10/100/1000Base-T 以太网端口',
               M_address: '../../static/server/8.jpg'
             },
@@ -274,11 +326,15 @@ export default {
               M_name: 'S5720-28P-PWR-LI_AC',
               M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
               M_price: '1234',
+              id: '35',
+              shengyu: '123',
               M_address: '../../static/server/8.jpg'
             },
             {
               M_name: 'S5740-28P-PWR-LI_AC',
               M_price: '1234',
+              id: '36',
+              shengyu: '123',
               M_information: '24个10/100/1000Base-T 以太网端口',
               M_address: '../../static/server/8.jpg'
             },
@@ -286,11 +342,15 @@ export default {
               M_name: 'S5720-28P-PWR-LI_AC',
               M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
               M_price: '1234',
+              id: '37',
+              shengyu: '123',
               M_address: '../../static/server/8.jpg'
             },
             {
               M_name: 'S5740-28P-PWR-LI_AC',
               M_price: '1234',
+              id: '38',
+              shengyu: '123',
               M_information: '24个10/100/1000Base-T 以太网端口',
               M_address: '../../static/server/8.jpg'
             },
@@ -298,76 +358,15 @@ export default {
               M_name: 'S5720-28P-PWR-LI_AC',
               M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
               M_price: '1234',
+              id: '39',
+              shengyu: '123',
               M_address: '../../static/server/8.jpg'
             },
             {
               M_name: 'S5740-28P-PWR-LI_AC',
               M_price: '1234',
-              M_information: '24个10/100/1000Base-T 以太网端口',
-              M_address: '../../static/server/8.jpg'
-            }
-          ]
-        },
-        {
-          M_type: '仿病毒网关',
-          M_children: [
-            {
-              M_name: 'S5720-28P-PWR-LI_AC',
-              M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
-              M_price: '1234',
-              M_address: '../../static/server/8.jpg'
-            },
-            {
-              M_name: 'S5740-28P-PWR-LI_AC',
-              M_price: '1234',
-              M_information: '24个10/100/1000Base-T 以太网端口',
-              M_address: '../../static/server/8.jpg'
-            },
-            {
-              M_name: 'S5720-28P-PWR-LI_AC',
-              M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
-              M_price: '1234',
-              M_address: '../../static/server/8.jpg'
-            },
-            {
-              M_name: 'S5740-28P-PWR-LI_AC',
-              M_price: '1234',
-              M_information: '24个10/100/1000Base-T 以太网端口',
-              M_address: '../../static/server/8.jpg'
-            },
-            {
-              M_name: 'S5720-28P-PWR-LI_AC',
-              M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
-              M_price: '1234',
-              M_address: '../../static/server/8.jpg'
-            },
-            {
-              M_name: 'S5740-28P-PWR-LI_AC',
-              M_price: '1234',
-              M_information: '24个10/100/1000Base-T 以太网端口',
-              M_address: '../../static/server/8.jpg'
-            },
-            {
-              M_name: 'S5720-28P-PWR-LI_AC',
-              M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
-              M_price: '1234',
-              M_address: '../../static/server/8.jpg'
-            },
-            {
-              M_name: 'S5740-28P-PWR-LI_AC',
-              M_price: '1234',
-              M_information: '24个10/100/1000Base-T 以太网端口',
-              M_address: '../../static/server/8.jpg'
-            },
-            {
-              M_name: 'S5720-28P-PWR-LI_AC',
-              M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
-              M_price: '1234',
-              M_address: '../../static/server/8.jpg'
-            },
-            {
-              M_name: 'S5740-28P-PWR-LI_AC',
-              M_price: '1234',
+              id: '310',
+              shengyu: '123',
               M_information: '24个10/100/1000Base-T 以太网端口',
               M_address: '../../static/server/8.jpg'
             }
@@ -375,15 +374,106 @@ export default {
         },
         {
           M_type: '上网行为管理',
+          type_id: '4',
           M_children: [
             {
               M_name: 'S5720-28P-PWR-LI_AC',
               M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
               M_price: '1234',
+              id: '41',
+              shengyu: '123',
               M_address: '../../static/server/8.jpg'
             },
             {
               M_name: 'S5740-28P-PWR-LI_AC',
+              M_price: '1234',
+              id: '42',
+              shengyu: '123',
+              M_information: '24个10/100/1000Base-T 以太网端口',
+              M_address: '../../static/server/8.jpg'
+            },
+            {
+              M_name: 'S5720-28P-PWR-LI_AC',
+              M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
+              M_price: '1234',
+              id: '43',
+              shengyu: '123',
+              M_address: '../../static/server/8.jpg'
+            },
+            {
+              M_name: 'S5740-28P-PWR-LI_AC',
+              M_price: '1234',
+              id: '44',
+              shengyu: '123',
+              M_information: '24个10/100/1000Base-T 以太网端口',
+              M_address: '../../static/server/8.jpg'
+            },
+            {
+              M_name: 'S5720-28P-PWR-LI_AC',
+              M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
+              M_price: '1234',
+              id: '45',
+              shengyu: '123',
+              M_address: '../../static/server/8.jpg'
+            },
+            {
+              M_name: 'S5740-28P-PWR-LI_AC',
+              M_price: '1234',
+              id: '46',
+              shengyu: '123',
+              M_information: '24个10/100/1000Base-T 以太网端口',
+              M_address: '../../static/server/8.jpg'
+            },
+            {
+              M_name: 'S5720-28P-PWR-LI_AC',
+              M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
+              M_price: '1234',
+              id: '47',
+              shengyu: '123',
+              M_address: '../../static/server/8.jpg'
+            },
+            {
+              M_name: 'S5740-28P-PWR-LI_AC',
+              M_price: '1234',
+              id: '48',
+              shengyu: '123',
+              M_information: '24个10/100/1000Base-T 以太网端口',
+              M_address: '../../static/server/8.jpg'
+            },
+            {
+              M_name: 'S5720-28P-PWR-LI_AC',
+              M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
+              M_price: '1234',
+              id: '49',
+              shengyu: '123',
+              M_address: '../../static/server/8.jpg'
+            },
+            {
+              M_name: 'S5740-28P-PWR-LI_AC',
+              M_price: '1234',
+              id: '410',
+              shengyu: '123',
+              M_information: '24个10/100/1000Base-T 以太网端口',
+              M_address: '../../static/server/8.jpg'
+            }
+          ]
+        },
+        {
+          M_type: '仿病毒网关',
+          type_id: '5',
+          M_children: [
+            {
+              M_name: 'S5720-28P-PWR-LI_AC',
+              M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
+              M_price: '1234',
+              id: '51',
+              shengyu: '123',
+              M_address: '../../static/server/8.jpg'
+            },
+            {
+              M_name: 'S5740-28P-PWR-LI_AC',
+              id: '52',
+              shengyu: '123',
               M_price: '1234',
               M_information: '24个10/100/1000Base-T 以太网端口',
               M_address: '../../static/server/8.jpg'
@@ -392,11 +482,23 @@ export default {
               M_name: 'S5720-28P-PWR-LI_AC',
               M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
               M_price: '1234',
+              id: '53',
+              shengyu: '123',
+              M_address: '../../static/server/8.jpg'
+            },
+            {
+              M_name: 'S5720-28P-PWR-LI_AC',
+              M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
+              M_price: '1234',
+              id: '54',
+              shengyu: '123',
               M_address: '../../static/server/8.jpg'
             },
             {
               M_name: 'S5740-28P-PWR-LI_AC',
               M_price: '1234',
+              id: '55',
+              shengyu: '123',
               M_information: '24个10/100/1000Base-T 以太网端口',
               M_address: '../../static/server/8.jpg'
             },
@@ -404,11 +506,15 @@ export default {
               M_name: 'S5720-28P-PWR-LI_AC',
               M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
               M_price: '1234',
+              id: '56',
+              shengyu: '123',
               M_address: '../../static/server/8.jpg'
             },
             {
               M_name: 'S5740-28P-PWR-LI_AC',
               M_price: '1234',
+              id: '57',
+              shengyu: '123',
               M_information: '24个10/100/1000Base-T 以太网端口',
               M_address: '../../static/server/8.jpg'
             },
@@ -416,23 +522,23 @@ export default {
               M_name: 'S5720-28P-PWR-LI_AC',
               M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
               M_price: '1234',
+              id: '58',
+              shengyu: '123',
               M_address: '../../static/server/8.jpg'
             },
             {
               M_name: 'S5740-28P-PWR-LI_AC',
               M_price: '1234',
+              id: '59',
+              shengyu: '123',
               M_information: '24个10/100/1000Base-T 以太网端口',
               M_address: '../../static/server/8.jpg'
             },
             {
-              M_name: 'S5720-28P-PWR-LI_AC',
-              M_information: '24个10/100/1000Base-T 以太网端口，2个复用的10/100/1000Base-T以太网端口Combo交流供电',
-              M_price: '1234',
-              M_address: '../../static/server/8.jpg'
-            },
-            {
               M_name: 'S5740-28P-PWR-LI_AC',
               M_price: '1234',
+              id: '510',
+              shengyu: '123',
               M_information: '24个10/100/1000Base-T 以太网端口',
               M_address: '../../static/server/8.jpg'
             }
@@ -540,6 +646,9 @@ export default {
     },
     goBcar () {
       this.$router.push({ name: 'Bcar' })
+    },
+    gocheck (index) {
+      this.$router.push({ name: '商品详情', query: { id: index.id, sj: index } })
     }
   }
 }
@@ -565,7 +674,7 @@ export default {
       display: inline-block;
       height: 250px;
       width: 220px;
-      padding:10px;
+      padding: 10px;
     }
   }
   img {
@@ -587,17 +696,17 @@ export default {
 }
 /* 首页旋转木马和侧边拦 */
 .Propaganda_pho {
-    ul{
-      li{
-        height: 117px;
-        width: 200px;
-        img {
-          height: 100%;
-          width: 100%;
-        }
+  ul {
+    li {
+      height: 117px;
+      width: 200px;
+      img {
+        height: 100%;
+        width: 100%;
       }
     }
   }
+}
 /* 侧边拦右侧部分 */
 .Propaganda_right {
   display: inline-block;

@@ -11,12 +11,11 @@
                   style="width:700px;float:right;"
                   finish-status="success">
           <el-step title="拍下商品"></el-step>
-          <el-step title="付款页面"></el-step>
           <el-step title="确认收货"></el-step>
         </el-steps>
       </div>
       <!-- 拍下商品 -->
-      <div v-show="gfer === 0">
+      <div v-show="gfer === 1">
         <div class="addres clearfic">
           <div class="address-top">
             <p>确认收货地址</p>
@@ -106,13 +105,20 @@
             </div>
           </div>
         </div>
-      </div>
-      <el-button v-show="gfer === 0"
-                 style="margin-top: 20px;
+        <el-button style="margin-top: 20px;
       float:right"
-                 @click="next">确认订单</el-button>
+                   @click="next">确认订单</el-button>
+      </div>
+      <!-- 支付 -->
+      <div v-show="gfer === 0">
+        支付方式：
+        <ul>
+          <li>微信</li>
+          <li>支付宝</li>
+        </ul>
+      </div>
       <!-- 确认订单后，物流走向 -->
-      <div v-show="gfer === 2">
+      <div v-show="gfer === 1">
         <el-steps :active="gfeb"
                   direction="vertical"
                   class="processing_content">
@@ -502,6 +508,9 @@ export default {
     next () {
       if (this.gfer++ > 2) this.gfer = 0
     },
+    next1 () {
+      if (this.gfer++ > 2) this.gfer = 0
+    },
     /* 计步器事件 */
     handleChange (value) {
       this.tableData.filter((v, i) => {
@@ -526,7 +535,7 @@ export default {
 }
 /* 订单信息 */
 .opation {
-  margin-top:50px;
+  margin-top: 50px;
 }
 .el-step__icon-inner[class*="el-icon"]:not(.is-status) {
   background-color: #d9e5f9;

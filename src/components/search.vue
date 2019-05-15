@@ -1,7 +1,6 @@
 <template>
   <div class="search">
     <el-input placeholder="请输入内容"
-              v-model="input4"
               class="input-with-select">
       <el-button slot="append">搜索</el-button>
     </el-input>

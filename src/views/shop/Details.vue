@@ -3,7 +3,7 @@
     <Operation></Operation>
     <div class="b_home">
       <!-- 搜索框 -->
-      <search class="weq"></search>
+      <search class="weq" v-model="input4"></search>
       <!-- 商品详情 -->
       <div class="Exhibition clearfix">
         <!-- 图片 -->
@@ -16,7 +16,7 @@
         <div class="details di">
           <div class="name m5">服务器</div>
           <div class="price m5">
-            <p class="one di">价格</p> ￥<p class="price_1 di">1231</p>
+            <p class="one di">价格</p> ￥<p class="price_1 di">{{sj.M_price}}</p>
           </div>
           <div class="volume m5">
             <p class="one di">月销量</p>
@@ -25,7 +25,7 @@
           <div class="type m5">
             <p class="one di">型号</p>
             <ul>
-              <li>OceanStor 18000 V5</li>
+              <li>{{sj.M_name}}</li>
             </ul>
           </div>
           <!-- 数量与库存 -->
@@ -36,7 +36,7 @@
                              v-model="number"
                              :min="1"
                              @change="handleChange(value)"></el-input-number>
-            <p class="num_1 di">库存 123123 件</p>
+            <p class="num_1 di">库存 {{sj.shengyu}} 件</p>
           </div>
           <!-- 购买与加入购物成为 -->
           <div class="add m5">
@@ -139,6 +139,7 @@ export default {
     return {
       input4: '',
       number: '1',
+      sj: [],
       tabPosition: 'top',
       userName: '测试用户',
       value: 3
@@ -151,9 +152,10 @@ export default {
   },
   methods: {
     tcall () {
+      this.sj = this.$route.query.sj
     },
     gopay () {
-      this.$router.psh({ path: '/pay' })
+      this.$router.push({ path: '/pay' })
     }
   }
 }

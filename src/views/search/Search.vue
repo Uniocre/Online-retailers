@@ -13,7 +13,7 @@
           <ul v-for="(value1, index1) in value.children"
               :key="index1"
               class="di ulc">
-            <li :id="value1.type_id">{{value1.name}}</li>
+            <li :id="value1.type_id">{{value1.M_name}}</li>
           </ul>
         </div>
       </div>
@@ -27,11 +27,12 @@
       <ul class="mail">
         <li v-for="( value, index) in datalist"
             :key='index'
+            @click="gocheck(value)"
             class="di">
           <img :src="value.img"
                alt="">
-          <p>{{value.name}}</p>
-          <p class="M_price">{{value.price}}</p>
+          <p>{{value.M_name}}</p>
+          <p class="M_price">{{value.M_price}}</p>
         </li>
       </ul>
       <!-- 分页器 -->
@@ -59,121 +60,120 @@ export default {
           /* 类型id  */
           type_id: '1',
           img: '../../../static/server/6.jpg',
-          name: '刀片服务器 E900',
-          price: 3494
+          M_name: '刀片服务器 E900',
+          M_price: 39094
         },
         {
           id: '1002',
           type_id: '2',
           img: '../../../static/server/6.jpg',
-          name: '刀片服务器 E900',
-          price: 3494
+          M_name: '刀片服务器 E900',
+          M_price: 3424
         },
         {
           id: '1003',
           type_id: '3',
           img: '../../../static/server/6.jpg',
-          name: '刀片服务器 E900',
-          price: 3494
+          M_name: '刀片服务器 E900',
+          M_price: 3094
         },
         {
           id: '1004',
           type_id: '4',
           img: '../../../static/server/6.jpg',
-          name: '刀片服务器 E900',
-          price: 3494
+          M_name: '刀片服务器 E900',
+          M_price: 3394
         },
         {
           id: '1005',
           type_id: '1',
           img: '../../../static/server/6.jpg',
-          name: '刀片服务器 E900',
-          price: 3494
+          M_name: '刀片服务器 E900',
+          M_price: 4934
         },
         {
           id: '1006',
           type_id: '2',
           img: '../../../static/server/6.jpg',
-          name: '刀片服务器 E900',
-          price: 3494
+          M_name: '刀片服务器 E900',
+          M_price: 30494
         },
         {
           id: '1007',
           type_id: '3',
           img: '../../../static/server/6.jpg',
-          name: '刀片服务器 E900',
-          price: 3494
+          M_name: '刀片服务器 E900',
+          M_price: 34694
         },
         {
           id: '1008',
           type_id: '4',
           img: '../../../static/server/6.jpg',
-          name: '刀片服务器 E900',
-          price: 3494
+          M_name: '刀片服务器 E900',
+          M_price: 34094
         },
         {
           id: '1009',
           type_id: '1',
           img: '../../../static/server/6.jpg',
-          name: '刀片服务器 E900',
-          price: 3494
+          M_name: '刀片服务器 E900',
+          M_price: 3940
         },
         {
           id: '1010',
           type_id: '2',
           img: '../../../static/server/6.jpg',
-          name: '刀片服务器 E900',
-          price: 3494
+          M_name: '刀片服务器 E900',
+          M_price: 34904
         },
         {
           id: '1011',
           type_id: '3',
           img: '../../../static/server/6.jpg',
-          name: '刀片服务器 E900',
-          price: 3494
+          M_name: '刀片服务器 E900',
+          M_price: 349
         },
         {
           id: '1012',
           type_id: '4',
           img: '../../../static/server/6.jpg',
-          name: '刀片服务器 E900',
-          price: 3494
+          M_name: '刀片服务器 E900',
+          M_price: 494
         },
-
         {
           id: '1013',
           type_id: '1',
           img: '../../../static/server/6.jpg',
-          name: '刀片服务器 E900',
-          price: 3494
+          M_name: '刀片服务器 E900',
+          M_price: 344
         },
         {
           id: '1014',
           type_id: '2',
           img: '../../../static/server/6.jpg',
-          name: '刀片服务器 E900',
-          price: 3494
+          M_name: '刀片服务器 E900',
+          M_price: 344
         },
         {
           id: '1015',
           type_id: '3',
           img: '../../../static/server/6.jpg',
-          name: '刀片服务器 E900',
-          price: 3494
+          M_name: '刀片服务器 E900',
+          M_price: 34946
         },
         {
           id: '1016',
           type_id: '4',
           img: '../../../static/server/6.jpg',
-          name: '刀片服务器 E900',
-          price: 3494
+          M_name: '刀片服务器 E900',
+          M_price: 34294
         },
         {
           id: '1017',
           type_id: '1',
           img: '../../../static/server/6.jpg',
-          name: '刀片服务器 E900',
-          price: 3494
+          M_name: '刀片服务器 E900',
+          M_price: 34934
         }
       ],
       datalist1: [
@@ -181,19 +181,19 @@ export default {
           type_name: '服务器',
           children: [
             {
-              name: '刀片服务器',
+              M_name: '刀片服务器',
               type_id: '1'
             },
             {
-              name: '机架服务器',
+              M_name: '机架服务器',
               type_id: '2'
             },
             {
-              name: '异构服务器',
+              M_name: '异构服务器',
               type_id: '3'
             },
             {
-              name: '多节点服务器',
+              M_name: '多节点服务器',
               type_id: '4'
             }
           ]
@@ -201,15 +201,15 @@ export default {
           type_name: '存储',
           children: [
             {
-              name: '全闪存储',
+              M_name: '全闪存储',
               type_id: '5'
             },
             {
-              name: '混合存储',
+              M_name: '混合存储',
               type_id: '6'
             },
             {
-              name: '云存储',
+              M_name: '云存储',
               type_id: '7'
             }
           ]
@@ -217,15 +217,15 @@ export default {
           type_name: '路由器',
           children: [
             {
-              name: 'AR1200 S',
+              M_name: 'AR1200 S',
               type_id: '8'
             },
             {
-              name: 'AR2200 S',
+              M_name: 'AR2200 S',
               type_id: '9'
             },
             {
-              name: 'NE20E',
+              M_name: 'NE20E',
               type_id: '10'
             }
           ]
@@ -238,6 +238,9 @@ export default {
   },
   methods: {
     tcall () {
+    },
+    gocheck (value) {
+      this.$router.push({ name: '商品详情', query: { id: value.id, sj: value } })
     }
   }
 }
@@ -253,8 +256,11 @@ export default {
 }
 /*  */
 .lis {
+  background-color: #dcdfe696;
   li {
     display: inline-block;
+    background-color: #fff;
+    padding:5px;
     margin-right: 10px;
     margin: 10px;
   }
