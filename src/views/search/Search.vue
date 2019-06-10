@@ -18,10 +18,18 @@
         </div>
       </div>
       <!-- 销量比较 -->
-      <ul class="lis">
+      <ul class="lis clearfix">
         <li>总和排序</li>
         <li>销量</li>
-        <li>价格</li>
+        <li style="padding: 4px;">
+          <div>
+            <div style="display:inline-block">价格</div>
+            <div style="display:inline-block;width:10px" class="clearfix">
+              <i class="kailong"></i>
+              <i class="kailong1"></i>
+            </div>
+          </div>
+        </li>
       </ul>
       <!-- 商品 -->
       <ul class="mail">
@@ -241,7 +249,9 @@ export default {
     },
     gocheck (value) {
       this.$router.push({ name: '商品详情', query: { id: value.id, sj: value } })
-    }
+    },
+    /* 价格点击事件。对比价格顺序事件 */
+    handleChange () { }
   }
 }
 </script>
@@ -251,18 +261,39 @@ export default {
   width: 1200px;
   margin: 0 auto;
 }
+.kailong {
+  display: inline-block;
+  float:left;
+  width: 0;
+  height: 0;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  border-bottom: 5px solid #333;
+}
+.kailong1 {
+  display: inline-block;
+  float:left;
+  width: 0;
+  height: 0;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  border-top: 5px solid #333;
+}
+
 /* 商品分类 */
 .type {
 }
 /*  */
 .lis {
-  background-color: #dcdfe696;
+  background-color: #dcdfe645;
+  margin-top: 10px;
+  border: 1px solid #dcdfe67d;
   li {
-    display: inline-block;
+    float: left;
     background-color: #fff;
-    padding:5px;
-    margin-right: 10px;
-    margin: 10px;
+    margin: 10px 0;
+    padding: 10px;
+    outline: 1px solid #ccc;
   }
 }
 /* 商品 */

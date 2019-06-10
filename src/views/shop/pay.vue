@@ -15,7 +15,7 @@
         </el-steps>
       </div>
       <!-- 拍下商品 -->
-      <div v-show="gfer === 1">
+      <div v-show="gfer === 0">
         <div class="addres clearfic">
           <div class="address-top">
             <p>确认收货地址</p>
@@ -110,7 +110,7 @@
                    @click="next">确认订单</el-button>
       </div>
       <!-- 支付 -->
-      <div v-show="gfer === 0">
+      <div v-show="gfer === 1">
         支付方式：
         <ul>
           <li>微信</li>
